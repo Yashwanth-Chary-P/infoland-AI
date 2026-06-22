@@ -1,0 +1,192 @@
+/* --- Popup Wrapper --- */
+.leaflet-popup-content-wrapper {
+  border-radius: 18px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  max-width: 1000px !important; /* ensure popup doesn't shrink */
+}
+.leaflet-popup-content {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* --- Main Popup Container --- */
+.popup-container {
+  width: 700px; /* increased width */
+  font-family: "Inter", "Poppins", sans-serif;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* --- Land Details Card --- */
+.popup-details {
+  background: linear-gradient(145deg, #f9fafb, #eef2ff);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.popup-details h3 {
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+}
+
+.popup-details p {
+  margin: 4px 0;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.popup-details b {
+  color: #111827;
+}
+
+/* --- Button to toggle plans --- */
+.btn-toggle-plans {
+  margin-top: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+}
+
+.btn-toggle-plans:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+.btn-toggle-plans.hide {
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  box-shadow: 0 3px 10px rgba(249, 115, 22, 0.3);
+}
+
+/* --- Plans Section --- */
+.plans-section {
+  background: #f8fafc;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.plans-section h4 {
+  text-align: center;
+  color: #1f2937;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+/* Horizontal scroll */
+.plans-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 4px 4px 12px 4px;
+  scrollbar-width: thin;
+}
+
+.plans-container::-webkit-scrollbar {
+  height: 8px;
+}
+.plans-container::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 10px;
+}
+
+/* --- Each Plan Card --- */
+.plan-card {
+  flex: 0 0 210px;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.25s ease-in-out;
+  background: white;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+}
+
+.plan-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.plan-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #1e293b;
+}
+
+.plan-price {
+  color: #16a34a;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* Features */
+.plan-features {
+  margin: 10px 0;
+  font-size: 0.85rem;
+  color: #4b5563;
+  padding-left: 16px;
+  list-style: disc;
+  flex-grow: 1;
+}
+
+/* Select button */
+.btn-select-plan {
+  width: 100%;
+  background: linear-gradient(135deg, #16a34a, #4ade80);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  padding: 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 8px rgba(22, 163, 74, 0.3);
+}
+
+.btn-select-plan:hover {
+  background: linear-gradient(135deg, #15803d, #22c55e);
+  transform: translateY(-2px);
+}
+
+/* Color themes */
+.plan-card:nth-child(1) {
+  background: linear-gradient(to bottom right, #f0fdf4, #dcfce7);
+}
+.plan-card:nth-child(2) {
+  background: linear-gradient(to bottom right, #fefce8, #fef9c3);
+}
+.plan-card:nth-child(3) {
+  background: linear-gradient(to bottom right, #eff6ff, #dbeafe);
+}
+
+
+.map-wrapper {
+  height: calc(100vh - 20px); /* adjust if your Navbar height is different */
+  margin-top: 70px; 
+  padding-top: 0;
+  overflow: hidden;
+}

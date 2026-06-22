@@ -1,0 +1,42 @@
+@import "leaflet/dist/leaflet.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  --gov-fill: #e8f5e8;
+  --priv-fill: #f0f8ff;
+  --plot-boundary: #4a5568;
+  --road: #6b7280;
+  --park-fill: #f0fdf4;
+}
+
+body {
+  font-family: 'Inter', 'Roboto', 'Poppins', system-ui, sans-serif;
+  background-color: #fbf2e6;
+  margin: 0;
+  padding: 0;
+}
+
+.plot-shape {
+  transition: transform 0.15s ease-in-out;
+}
+
+.plot-shape:hover {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+
+
+/* Hide scrollbar globally */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Opera */
+}

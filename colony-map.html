@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colony Map — Accurate Layout (Numbered from 127)</title>
+    <style>
+        :root {
+            --bg: #fbf4e9;
+            --plot-boundary: #b04fb0;
+            --gov-fill: #cfeadf;
+            --priv-fill: #f2d8b5;
+            --comm-fill: #cfe9ff;
+            --park-fill: #bfe6b6;
+            --pond-fill: #c79a68;
+            --road: #5a6166;
+        }
+        
+        html, body {
+            height: 100%;
+            margin: 0;
+            background: var(--bg);
+            font-family: Inter, Roboto, Arial, sans-serif;
+        }
+        
+        .wrap {
+            max-width: 1200px;
+            margin: 18px auto;
+            padding: 12px;
+        }
+        
+        .title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .title h1 {
+            font-size: 20px;
+            margin: 0;
+            color: #234;
+        }
+        
+        .map-frame {
+            background: linear-gradient(#fbf6eb, #f7efe0);
+            border-radius: 10px;
+            padding: 14px;
+            box-shadow: 0 12px 30px rgba(20, 20, 20, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            overflow: auto;
+        }
+        
+        svg {
+            display: block;
+            max-width: 1400px;
+            height: auto;
+        }
+        
+        .plot-num {
+            font-weight: 700;
+            font-size: 14px;
+            fill: #fff;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            pointer-events: none;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+        }
+        
+        .plot-shape {
+            transition: transform 0.08s ease, opacity 0.12s ease;
+        }
+        
+        .plot-shape:hover {
+            transform: translateY(-2px);
+            opacity: 0.98;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="title">
+            <h1>Colony Layout — Map View (Plot Numbers 127–153)</h1>
+        </div>
+
+        <div class="map-frame">
+            <svg viewBox="0 0 1400 950" xmlns="http://www.w3.org/2000/svg" aria-label="Colony Map">
+                <rect x="0" y="0" width="1400" height="950" fill="#fbf2e6"></rect>
+
+                <!-- Roads -->
+                <rect x="60" y="840" width="1150" height="60" fill="var(--road)" rx="6"></rect>
+                <line x1="80" y1="870" x2="1340" y2="870" stroke="#fff" stroke-width="3" stroke-dasharray="18 12"></line>
+                <rect x="60" y="670" width="1150" height="44" fill="var(--road)" rx="6"></rect>
+                <line x1="80" y1="692" x2="1340" y2="692" stroke="#fff" stroke-width="3" stroke-dasharray="12 8"></line>
+                <rect x="420" y="120" width="44" height="820" fill="var(--road)" rx="6"></rect>
+                <line x1="442" y1="140" x2="442" y2="920" stroke="#fff" stroke-width="3" stroke-dasharray="12 8"></line>
+                <rect x="930" y="120" width="44" height="820" fill="var(--road)" rx="6"></rect>
+                <line x1="952" y1="140" x2="952" y2="920" stroke="#fff" stroke-width="3" stroke-dasharray="12 8"></line>
+
+                <!-- Park -->
+                <g id="park">
+                    <rect x="80" y="140" width="320" height="240" rx="10" fill="var(--park-fill)" stroke="#8cc07a" stroke-width="3"></rect>
+                    <g fill="#2f9b4d">
+                        <circle cx="130" cy="200" r="10"></circle>
+                        <circle cx="170" cy="220" r="9"></circle>
+                        <circle cx="220" cy="190" r="9"></circle>
+                        <circle cx="280" cy="230" r="9"></circle>
+                        <circle cx="300" cy="180" r="9"></circle>
+                    </g>
+                    <rect x="90" y="305" width="60" height="30" rx="4" fill="#3da6f0" stroke="#2a78b5"></rect>
+                </g>
+
+                <!-- Block A -->
+                <g id="plots-block-a">
+                    <rect class="plot-shape" x="80" y="400" width="140" height="120" rx="8" fill="var(--gov-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="150" y="460">127</text>
+
+                    <rect class="plot-shape" x="80" y="540" width="140" height="120" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="150" y="600">128</text>
+
+                    <rect class="plot-shape" x="80" y="724" width="140" height="100" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="150" y="774">129</text>
+
+                    <rect class="plot-shape" x="236" y="400" width="140" height="120" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="306" y="460">130</text>
+
+                    <rect class="plot-shape" x="236" y="540" width="140" height="120" rx="8" fill="var(--gov-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="306" y="600">131</text>
+
+                    <rect class="plot-shape" x="236" y="724" width="140" height="100" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="306" y="774">132</text>
+                </g>
+
+                <!-- Block B -->
+                <g id="plots-block-b">
+                    <rect class="plot-shape" x="490" y="140" width="240" height="120" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="610" y="200">133</text>
+
+                    <rect class="plot-shape" x="750" y="140" width="140" height="120" rx="8" fill="var(--gov-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="820" y="200">134</text>
+
+                    <rect class="plot-shape" x="490" y="276" width="240" height="120" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="610" y="336">135</text>
+
+                    <rect class="plot-shape" x="750" y="276" width="140" height="120" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="820" y="336">136</text>
+
+                    <rect class="plot-shape" x="490" y="412" width="240" height="120" rx="8" fill="var(--gov-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="610" y="472">137</text>
+
+                    <rect class="plot-shape" x="750" y="412" width="140" height="120" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="820" y="472">138</text>
+
+                    <rect class="plot-shape" x="490" y="548" width="240" height="100" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="610" y="608">139</text>
+
+                    <rect class="plot-shape" x="750" y="548" width="140" height="100" rx="8" fill="var(--gov-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="820" y="608">140</text>
+
+                    <rect class="plot-shape" x="490" y="724" width="240" height="100" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="610" y="774">141</text>
+
+                    <rect class="plot-shape" x="750" y="724" width="140" height="100" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="820" y="774">142</text>
+                </g>
+
+                <!-- Block C -->
+                <g id="plots-block-c">
+                    <rect class="plot-shape" x="980" y="140" width="200" height="120" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="1080" y="200">143</text>
+
+                    <rect class="plot-shape" x="980" y="276" width="200" height="120" rx="8" fill="var(--gov-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="1080" y="336">144</text>
+
+                    <rect class="plot-shape" x="980" y="412" width="200" height="120" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="1080" y="472">145</text>
+
+                    <rect class="plot-shape" x="980" y="548" width="200" height="100" rx="8" fill="var(--priv-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="1080" y="608">146</text>
+
+                    <rect class="plot-shape" x="980" y="724" width="200" height="100" rx="8" fill="var(--gov-fill)" stroke="var(--plot-boundary)" stroke-width="3"></rect>
+                    <text class="plot-num" x="1080" y="774">147</text>
+                </g>
+            </svg>
+        </div>
+    </div>
+</body>
+</html>

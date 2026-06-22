@@ -1,0 +1,38 @@
+node_modules/# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+out/
+
+# Framework caches / build dirs
+.next/
+.nuxt/
+.svelte-kit/
+.vite/
+.cache/
+.parcel-cache/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Coverage and test output
+coverage/
+
+# Tooling caches
+.eslintcache
+*.tsbuildinfo
+
+# IDE / OS files
+.vscode/
+.idea/
+.DS_Store
