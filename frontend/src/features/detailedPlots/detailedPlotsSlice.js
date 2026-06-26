@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { fetchAllProperties, fetchPropertyDetails } from "../../services/data/PropertyService";
 
 // Fetch all detailed plots
 export const fetchDetailedPlots = createAsyncThunk(
   "detailedPlots/fetchAll",
   async () => {
-    const res = await axios.get("http://localhost:5000/api/plots/detailed");
-    return res.data;
+    const data = await fetchAllProperties();
+    return data || [];
   }
 );
 
@@ -14,8 +14,8 @@ export const fetchDetailedPlots = createAsyncThunk(
 export const fetchDetailedPlotById = createAsyncThunk(
   "detailedPlots/fetchById",
   async (id) => {
-    const res = await axios.get(`http://localhost:5000/api/plots/detailed/${id}`);
-    return res.data;
+    const data = await fetchPropertyDetails(id);
+    return data;
   }
 );
 

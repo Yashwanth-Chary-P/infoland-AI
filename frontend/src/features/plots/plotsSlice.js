@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { fetchAllProperties } from '../../services/data/PropertyService';
 
 // Fetch all plots
 export const fetchPlots = createAsyncThunk(
   'plots/fetchPlots',
   async () => {
-    const res = await axios.get('http://localhost:5000/api/plots/basic');
-    return res.data;                 // array of plot objects
+    const data = await fetchAllProperties();
+    return data || [];
   }
 );
 
