@@ -1,5 +1,6 @@
-node_modules/# Node modules
+# Node modules
 node_modules/
+scratch_schema.js
 
 # Environment files
 .env
