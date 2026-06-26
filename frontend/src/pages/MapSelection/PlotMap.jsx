@@ -4,6 +4,8 @@ import {
   TileLayer,
   Polygon,
   useMapEvents,
+  Marker,
+  Popup
 } from "react-leaflet";
 import { useNavigate } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
@@ -11,22 +13,35 @@ import "../CSS/PlotMap.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDetailedPlotById } from "../../features/detailedPlots/detailedPlotsSlice";
+import { getPOIs } from "../../services/data/POIService";
+import L from "leaflet";
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
+
+// Setup default marker icon
+let DefaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41]
+});
+L.Marker.prototype.options.icon = DefaultIcon;
 
 /* -------------------------------------------
-   POINT-IN-POLYGON DETECTION (No mismatching)
+   POINT-IN-POLYGON DETECTION (GeoJSON [lng, lat])
 -------------------------------------------- */
-function isPointInsidePolygon(lat, lng, polygon) {
+function isPointInsidePolygon(clickLat, clickLng, geoJsonRing) {
   let inside = false;
 
-  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-    const yi = polygon[i][1];
-    const xi = polygon[i][0];
-    const yj = polygon[j][1];
-    const xj = polygon[j][0];
+  for (let i = 0, j = geoJsonRing.length - 1; i < geoJsonRing.length; j = i++) {
+    const xi = geoJsonRing[i][0]; // lng
+    const yi = geoJsonRing[i][1]; // lat
+    const xj = geoJsonRing[j][0]; // lng
+    const yj = geoJsonRing[j][1]; // lat
 
     const intersect =
-      yi > lng !== yj > lng &&
-      lat < ((xj - xi) * (lng - yi)) / (yj - yi) + xi;
+      yi > clickLat !== yj > clickLat &&
+      clickLng < ((xj - xi) * (clickLat - yi)) / (yj - yi) + xi;
 
     if (intersect) inside = !inside;
   }
@@ -45,9 +60,14 @@ const PlotMap = () => {
   const [landDetails, setLandDetails] = useState(null);
   const [center, setCenter] = useState([17.385, 78.486]);
   const [loading, setLoading] = useState(false);
+  const [pois, setPois] = useState([]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    getPOIs().then(data => setPois(data || []));
+  }, []);
 
   const detailedPlots = useSelector((state) => state.detailedPlots.list);
 
@@ -60,53 +80,43 @@ const PlotMap = () => {
       setLoading(true);
 
       // 1️⃣ Detect exactly which polygon contains the click
-      const matchedPlot = detailedPlots.find((plot) =>
-        isPointInsidePolygon(lat, lng, plot.Coordinates)
-      );
+      const matchedPlot = detailedPlots.find((plot) => {
+        if (!plot.geometry || !plot.geometry.coordinates) return false;
+        return isPointInsidePolygon(lat, lng, plot.geometry.coordinates[0]);
+      });
 
       if (!matchedPlot) {
         setPolygon([]);
         setLandDetails({
           name: "No Plot Found",
-          owner: "-",
-          surveyNo: "-",
+          propertyClass: "-",
           area: "-",
-          village: "-",
-          district: "-",
-          type: "-",
-          registrationYear: "-",
-          verifiedStatus: "Unavailable",
+          region: "-",
+          saleStatus: "-",
+          verificationWorkflow: "Unavailable",
         });
         setLoading(false);
         return;
       }
 
-      // 2️⃣ Fetch accurate backend data ALWAYS (no mismatching)
-      const response = await dispatch(fetchDetailedPlotById(matchedPlot.id));
-      const data = response.payload;
+      // 2️⃣ Fetch accurate backend data ALWAYS
+      const response = await dispatch(fetchDetailedPlotById(matchedPlot.property_id));
+      const data = response.payload || matchedPlot;
 
-      // 3️⃣ Fix polygon auto-close
-      const poly = data.Coordinates;
-      const first = poly[0];
-      const last = poly[poly.length - 1];
-      const closed =
-        first[0] === last[0] && first[1] === last[1]
-          ? poly
-          : [...poly, first];
-
-      setPolygon(closed);
+      // 3️⃣ Fix polygon auto-close & convert to [lat, lng]
+      const poly = data.geometry.coordinates[0];
+      const leafletCoords = poly.map(pt => [pt[1], pt[0]]);
+      
+      setPolygon(leafletCoords);
 
       // 4️⃣ Update sidebar
       setLandDetails({
-        name: `Plot ${data.id}`,
-        owner: data.Owner,
-        surveyNo: data["Survey No"],
-        area: data.Area,
-        village: data.Village,
-        district: data.District,
-        type: data.Type,
-        registrationYear: data["Registration Year"],
-        verifiedStatus: data.Status,
+        name: data.property_id,
+        propertyClass: data.profile?.property_class || "Unknown",
+        area: `${data.area_sq_m} sq m`,
+        region: data.source_region || "Unknown",
+        saleStatus: data.metadata?.sale_status || "Unknown",
+        verificationWorkflow: data.profile?.verification_workflow || "Unknown",
       });
 
       setCenter([lat, lng]);
@@ -127,19 +137,14 @@ const PlotMap = () => {
 
           {/* Draw ALL plots in light blue */}
           {detailedPlots.map((plot) => {
-            const coords = plot.Coordinates;
-            const first = coords[0];
-            const last = coords[coords.length - 1];
-
-            const closed =
-              first[0] === last[0] && first[1] === last[1]
-                ? coords
-                : [...coords, first];
+            if (!plot.geometry || !plot.geometry.coordinates) return null;
+            const coords = plot.geometry.coordinates[0];
+            const leafletCoords = coords.map(pt => [pt[1], pt[0]]);
 
             return (
               <Polygon
-                key={plot.id}
-                positions={closed}
+                key={plot.property_id}
+                positions={leafletCoords}
                 pathOptions={{
                   color: "#3b82f6",
                   fillColor: "#93c5fd",
@@ -162,6 +167,16 @@ const PlotMap = () => {
               }}
             />
           )}
+
+          {/* Render POIs */}
+          {pois.map((poi) => (
+            <Marker key={poi.poi_id} position={[poi.lat, poi.lon]}>
+              <Popup>
+                <b>{poi.name}</b><br/>
+                {poi.poi_type}
+              </Popup>
+            </Marker>
+          ))}
         </MapContainer>
       </div>
 
@@ -192,25 +207,24 @@ const PlotMap = () => {
               <p className="text-blue-500">Loading property details...</p>
             ) : (
               <div className="space-y-3 text-gray-700">
-                <p><b>Owner:</b> {landDetails.owner}</p>
-                <p><b>Survey No:</b> {landDetails.surveyNo}</p>
+                <p><b>Property Class:</b> {landDetails.propertyClass}</p>
                 <p><b>Area:</b> {landDetails.area}</p>
-                <p><b>Village:</b> {landDetails.village}</p>
-                <p><b>District:</b> {landDetails.district}</p>
-                <p><b>Type:</b> {landDetails.type}</p>
-                <p><b>Registration:</b> {landDetails.registrationYear}</p>
+                <p><b>Region:</b> {landDetails.region}</p>
+                <p><b>Sale Status:</b> {landDetails.saleStatus}</p>
                 <p className="text-red-600 font-medium">
-                  <b>Status:</b> {landDetails.verifiedStatus}
+                  <b>Verification:</b> {landDetails.verificationWorkflow}
                 </p>
               </div>
             )}
-
-            <button
-              onClick={() => navigate("/plans")}
-              className="w-full mt-6 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 transition"
-            >
-              Background Verification
-            </button>
+            
+            {landDetails.name !== "No Plot Found" && (
+              <button
+                onClick={() => navigate(`/plot/${landDetails.name}`)}
+                className="w-full mt-4 py-2 rounded-lg font-medium bg-green-600 text-white hover:bg-green-700 transition"
+              >
+                View Full Details
+              </button>
+            )}
           </>
         )}
       </div>
