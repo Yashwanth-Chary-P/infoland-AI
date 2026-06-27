@@ -7,19 +7,14 @@
  * @param {object} [pagination] - Pagination metadata if applicable
  * @returns {object} Formatted response object
  */
-export const successResponse = (message, data = null, pagination = undefined) => {
-  const response = {
+export const successResponse = (message, data = null, pagination = null) => {
+  return {
     success: true,
     message,
     data,
+    pagination,
     timestamp: new Date().toISOString(),
   };
-
-  if (pagination) {
-    response.pagination = pagination;
-  }
-
-  return response;
 };
 
 /**
@@ -29,16 +24,11 @@ export const successResponse = (message, data = null, pagination = undefined) =>
  * @param {any} [errors] - Detailed error info or validation errors
  * @returns {object} Formatted error response object
  */
-export const errorResponse = (message, errors = undefined) => {
-  const response = {
+export const errorResponse = (message, errors = []) => {
+  return {
     success: false,
     message,
+    errors,
     timestamp: new Date().toISOString(),
   };
-
-  if (errors) {
-    response.errors = errors;
-  }
-
-  return response;
 };

@@ -24,6 +24,26 @@ app.use(morgan('dev'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Health Check Endpoint
+/**
+ * @swagger
+ * /api/health:
+ *   get:
+ *     summary: System health check
+ *     tags: [System]
+ *     responses:
+ *       200:
+ *         description: Server is up and running
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success: { type: 'boolean', example: true }
+ *                 message: { type: 'string', example: 'Server is up and running' }
+ *                 data: { type: 'object', nullable: true, example: null }
+ *                 pagination: { type: 'object', nullable: true, example: null }
+ *                 timestamp: { type: 'string', example: '2026-06-27T10:30:00Z' }
+ */
 app.get('/api/health', (req, res) => {
   res.json(successResponse('Server is up and running'));
 });

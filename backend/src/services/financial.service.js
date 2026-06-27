@@ -22,21 +22,27 @@ class FinancialService {
       financialRepository.findCourtDisputesByPropertyId(propertyId)
     ]);
 
-    const activeLoans = loans.filter(l => l.status === 'Active').length;
-    const pendingDisputes = disputes.filter(d => d.status === 'Pending').length;
-    const expiredDocs = documents.filter(d => d.status === 'Expired').length;
+    const activeLoans = loans.filter((l) => l.status === 'active').length;
+    const activeDisputes = disputes.filter((d) => d.status === 'active').length;
+    const expiredDocs = documents.filter((d) => d.status === 'expired').length;
+    const missingDocs = documents.filter((d) => d.status === 'missing').length;
+    const pendingTaxes = taxes.filter((t) => t.status === 'pending').length;
 
     let healthScore = 100;
     if (activeLoans > 0) healthScore -= 10;
-    if (pendingDisputes > 0) healthScore -= 30;
+    if (activeDisputes > 0) healthScore -= 30;
     if (expiredDocs > 0) healthScore -= 5 * expiredDocs;
+    if (missingDocs > 0) healthScore -= 3 * missingDocs;
+    if (pendingTaxes > 0) healthScore -= 5 * pendingTaxes;
 
     const overallStatus = healthScore > 80 ? 'Good' : healthScore > 50 ? 'Fair' : 'Poor';
 
     return {
       documentSummary: {
         total: documents.length,
-        expired: expiredDocs
+        available: documents.filter((d) => d.status === 'available').length,
+        expired: expiredDocs,
+        missing: missingDocs
       },
       loanSummary: {
         total: loans.length,
@@ -44,11 +50,11 @@ class FinancialService {
       },
       taxSummary: {
         totalRecords: taxes.length,
-        latestPayment: taxes.length > 0 ? taxes[0].payment_date : null
+        pending: pendingTaxes
       },
       courtSummary: {
         total: disputes.length,
-        pending: pendingDisputes
+        active: activeDisputes
       },
       overallHealthSummary: {
         score: Math.max(0, healthScore),

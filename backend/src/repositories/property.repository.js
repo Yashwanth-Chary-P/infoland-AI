@@ -2,10 +2,32 @@ import MasterProperty from '../models/MasterProperty.model.js';
 import PropertyProfile from '../models/PropertyProfile.model.js';
 import PropertyMetadata from '../models/PropertyMetadata.model.js';
 import PropertyHealthSummary from '../models/PropertyHealthSummary.model.js';
+import PropertyTimeline from '../models/PropertyTimeline.model.js';
+import PropertyRegistry from '../models/PropertyRegistry.model.js';
 import LocationScore from '../models/LocationScore.model.js';
+import Owner from '../models/Owner.model.js';
 
 class PropertyRepository {
-  async findProperties(filter, sort, skip, limit) {
+  async _resolveProfilePropertyIds(profileFilter) {
+    if (!profileFilter || Object.keys(profileFilter).length === 0) {
+      return null;
+    }
+    return PropertyProfile.find(profileFilter).distinct('property_id');
+  }
+
+  async _applyProfileFilter(masterFilter, profileFilter) {
+    const profilePropertyIds = await this._resolveProfilePropertyIds(profileFilter);
+    if (!profilePropertyIds) {
+      return masterFilter;
+    }
+    return {
+      ...masterFilter,
+      property_id: { $in: profilePropertyIds }
+    };
+  }
+
+  async findProperties(masterFilter, profileFilter, sort, skip, limit) {
+    const filter = await this._applyProfileFilter(masterFilter, profileFilter);
     return await MasterProperty.find(filter)
       .sort(sort)
       .skip(skip)
@@ -13,7 +35,8 @@ class PropertyRepository {
       .lean();
   }
 
-  async countProperties(filter) {
+  async countProperties(masterFilter, profileFilter = {}) {
+    const filter = await this._applyProfileFilter(masterFilter, profileFilter);
     return await MasterProperty.countDocuments(filter);
   }
 
@@ -33,32 +56,56 @@ class PropertyRepository {
     return await PropertyHealthSummary.findOne({ property_id: propertyId }).lean();
   }
 
+  async findPropertyTimelineById(propertyId) {
+    return await PropertyTimeline.findOne({ property_id: propertyId }).lean();
+  }
+
+  async findPropertyRegistryById(propertyId) {
+    return await PropertyRegistry.findOne({ property_id: propertyId }).lean();
+  }
+
   async findLocationScoreById(propertyId) {
     return await LocationScore.findOne({ property_id: propertyId }).lean();
   }
 
-  async searchProperties(query, skip, limit) {
-    // Perform case-insensitive search across relevant string fields
-    // (Assuming these fields exist or we'll just search by ID if others aren't in MasterProperty)
+  _buildSearchFilter(query, ownerPropertyIds) {
     const regexQuery = { $regex: query, $options: 'i' };
-    const filter = {
+    const orConditions = [
+      { property_id: regexQuery },
+      { source_region: regexQuery },
+      { source_id: regexQuery },
+      { building: regexQuery },
+      { feature_category: regexQuery }
+    ];
+
+    if (ownerPropertyIds.length > 0) {
+      orConditions.push({ property_id: { $in: ownerPropertyIds } });
+    }
+
+    return { $or: orConditions };
+  }
+
+  async _getOwnerMatchedPropertyIds(query) {
+    const regexQuery = { $regex: query, $options: 'i' };
+    return Owner.find({
       $or: [
-        { property_id: regexQuery },
-        // other fields like survey number or owner name if they exist in master property
-        // for full search we might need to search across collections, but for phase 1 we'll stick to basic implementation
+        { full_name: regexQuery },
+        { source_region: regexQuery },
+        { owner_id: regexQuery }
       ]
-    };
-    
+    }).distinct('property_id');
+  }
+
+  async searchProperties(query, skip, limit) {
+    const ownerPropertyIds = await this._getOwnerMatchedPropertyIds(query);
+    const filter = this._buildSearchFilter(query, ownerPropertyIds);
+
     return await MasterProperty.find(filter).skip(skip).limit(limit).lean();
   }
-  
+
   async countSearchProperties(query) {
-    const regexQuery = { $regex: query, $options: 'i' };
-    const filter = {
-      $or: [
-        { property_id: regexQuery }
-      ]
-    };
+    const ownerPropertyIds = await this._getOwnerMatchedPropertyIds(query);
+    const filter = this._buildSearchFilter(query, ownerPropertyIds);
     return await MasterProperty.countDocuments(filter);
   }
 }

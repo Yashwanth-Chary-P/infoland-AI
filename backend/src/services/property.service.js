@@ -6,19 +6,19 @@ class PropertyService {
   async getProperties(query) {
     const { limit, skip, page } = getPagination(query);
     const sort = buildSort(query);
-    
-    // Construct filter from query
-    const filter = {};
-    if (query.region) filter.source_region = query.region;
-    if (query.propertyClass) filter.property_class = query.propertyClass;
-    if (query.saleStatus) filter.sale_status = query.saleStatus;
-    // Note: areaRange and locationScore filters would need specific schema implementation details to map correctly
-    
+
+    const masterFilter = {};
+    const profileFilter = {};
+
+    if (query.region) masterFilter.source_region = query.region;
+    if (query.propertyClass) profileFilter.property_class = query.propertyClass;
+    if (query.saleStatus) profileFilter.sale_status = query.saleStatus;
+
     const [properties, total] = await Promise.all([
-      propertyRepository.findProperties(filter, sort, skip, limit),
-      propertyRepository.countProperties(filter)
+      propertyRepository.findProperties(masterFilter, profileFilter, sort, skip, limit),
+      propertyRepository.countProperties(masterFilter, profileFilter)
     ]);
-    
+
     return {
       data: properties,
       pagination: getPaginationMeta(total, page, limit)
@@ -32,6 +32,8 @@ class PropertyService {
       metadata,
       healthSummary,
       locationScore,
+      propertyTimeline,
+      propertyRegistry,
       currentOwner
     ] = await Promise.all([
       propertyRepository.findMasterPropertyById(propertyId),
@@ -39,6 +41,8 @@ class PropertyService {
       propertyRepository.findPropertyMetadataById(propertyId),
       propertyRepository.findPropertyHealthSummaryById(propertyId),
       propertyRepository.findLocationScoreById(propertyId),
+      propertyRepository.findPropertyTimelineById(propertyId),
+      propertyRepository.findPropertyRegistryById(propertyId),
       ownerRepository.findCurrentOwnerByPropertyId(propertyId)
     ]);
 
@@ -54,6 +58,8 @@ class PropertyService {
       metadata,
       healthSummary,
       locationScore,
+      propertyTimeline,
+      propertyRegistry,
       currentOwner
     };
   }
@@ -61,7 +67,7 @@ class PropertyService {
   async searchProperties(query) {
     const { q } = query;
     const { limit, skip, page } = getPagination(query);
-    
+
     const [properties, total] = await Promise.all([
       propertyRepository.searchProperties(q, skip, limit),
       propertyRepository.countSearchProperties(q)

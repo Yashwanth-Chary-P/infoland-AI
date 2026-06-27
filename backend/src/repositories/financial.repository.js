@@ -8,7 +8,7 @@ class FinancialRepository {
   }
 
   async findTaxRecordsByPropertyId(propertyId) {
-    return await TaxRecord.find({ property_id: propertyId }).sort({ tax_year: -1 }).lean();
+    return await TaxRecord.find({ property_id: propertyId }).sort({ tax_id: 1 }).lean();
   }
 
   async findCourtDisputesByPropertyId(propertyId) {
