@@ -230,6 +230,47 @@ const options = {
               }
             }
           }
+        },
+        FinancialEncumbrances: {
+          type: 'object',
+          properties: {
+            property_id: { type: 'string', example: 'PROP-KOK-000001' },
+            has_encumbrance: { type: 'boolean', example: false },
+            active_encumbrances: { type: 'number', example: 0 }
+          }
+        },
+        FinancialValidation: {
+          type: 'object',
+          properties: {
+            property_id: { type: 'string', example: 'PROP-KOK-000001' },
+            financial_state: { type: 'string', example: 'clear' },
+            loan_validation: { type: 'string', example: 'valid' },
+            tax_validation: { type: 'string', example: 'valid' },
+            issues: { type: 'array', items: { type: 'string' }, example: [] }
+          }
+        },
+        FinancialSummary: {
+          type: 'object',
+          properties: {
+            property_id: { type: 'string', example: 'PROP-KOK-000001' },
+            financial_state: { type: 'string', example: 'clear' },
+            active_loans: { type: 'number', example: 0 },
+            closed_loans: { type: 'number', example: 1 },
+            loan_outstanding: { type: 'number', example: 0 },
+            pending_tax: { type: 'number', example: 0 },
+            total_due: { type: 'number', example: 0 }
+          }
+        },
+        FinancialStatistics: {
+          type: 'object',
+          properties: {
+            property_id: { type: 'string', example: 'PROP-KOK-000001' },
+            active_loans: { type: 'number', example: 0 },
+            closed_loans: { type: 'number', example: 1 },
+            paid_tax_records: { type: 'number', example: 1 },
+            pending_tax_records: { type: 'number', example: 0 },
+            financial_health: { type: 'string', example: 'good' }
+          }
         }
       },
       parameters: {
