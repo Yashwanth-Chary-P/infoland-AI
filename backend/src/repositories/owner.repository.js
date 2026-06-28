@@ -5,11 +5,7 @@ import PropertyTimeline from '../models/PropertyTimeline.model.js';
 
 class OwnerRepository {
   async findCurrentOwnerByPropertyId(propertyId) {
-    const registry = await PropertyRegistry.findOne({ property_id: propertyId }).lean();
-    if (!registry) {
-      return await Owner.findOne({ property_id: propertyId }).lean();
-    }
-    return await Owner.findOne({ owner_id: registry.owner_id }).lean();
+    return await Owner.findOne({ property_id: propertyId }).lean();
   }
 
   async findPropertyRegistryById(propertyId) {
