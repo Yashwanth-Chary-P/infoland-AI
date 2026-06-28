@@ -101,6 +101,14 @@ class OwnerService {
     };
   }
 
+  async getOwnershipTransfers(propertyId) {
+    const history = await this.getOwnershipHistory(propertyId);
+    return {
+      property_id: propertyId,
+      transfers: history.transfers.map(t => this._stripInternalFields(t))
+    };
+  }
+
   async getRegistryInformation(propertyId) {
     const registry = await ownerRepository.findPropertyRegistryById(propertyId);
     if (!registry) {

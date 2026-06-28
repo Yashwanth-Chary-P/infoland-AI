@@ -1,53 +1,83 @@
-# Module 5 Master Prompt: Legal Verification Engine
+# Module 5 Master Prompt: Legal and Historical Timeline Engine
 
 ## Objective
-Implement **ONLY Backend Phase 2 – Module 5 (Legal Verification Engine)**. 
+Implement ONLY Backend Phase 2 Module 5 documentation and planning outcomes for the Legal and Historical Timeline Engine.
 
-## Module Scope
-- Court disputes
-- Litigation history
-- Legal encumbrances
+Do NOT modify backend code.
+
+Do NOT modify Swagger.
+
+Do NOT modify MongoDB.
+
+Do NOT modify repositories.
+
+---
+
+## Scope
+Collections
+
+- court_disputes
+- ownership_events
+- property_registry
+- owners
+
+Responsibilities
+
+- Legal verification
+- Court case verification
+- Legal status
 - Legal summary
+- Ownership timeline
+- Transfer timeline
+- Historical events
+- Legal statistics
+- Timeline statistics
 
-## Collections
-- `court_disputes`
+---
 
-## MongoDB & Dataset Engine Inspection Rules
-- Inspect MongoDB collections, indexes, relationships, and field names before coding.
-- Verify against Dataset Engine `FIELD_REFERENCE.md` and release reports.
-- Never assume field existence.
+## Required Outputs
+Produce module documentation that includes
 
-## Release Report Verification
-- Do not hardcode values from `release/reports/` (e.g. `court_dispute_stats.json`).
-- Compute everything dynamically from MongoDB and compare with reports.
+- Architecture
+- Collections
+- Repository Strategy
+- Business Rules
+- Expected APIs
+- Computed Backend Fields
+- Swagger Requirements
+- Testing Strategy
+- Dataset Verification
+- Release Report Verification
+- Performance Notes
+- Future Integration
+- Known Limitations
+- Lessons Learned
 
-## Architecture Rules
-- Strictly adhere to Routes -> Controllers -> Services -> Repositories -> MongoDB.
+---
 
-## Repository, Controller, Service & Validation Rules
-- Follow existing patterns.
-- Do not duplicate business logic.
-- Validate inputs using centralized validation.
-- Avoid N+1 queries; use `Promise.all`.
+## API Expectations
+Document expected endpoints
 
-## Swagger Requirements
-- Update Swagger professionally with summary, descriptions, tags, and request/response schemas.
-- Use **real MongoDB examples**.
-- Clearly document Computed Backend Fields.
+- GET /api/ownership/:propertyId/timeline
+- GET /api/ownership/:propertyId/transfers
+- GET /api/ownership/:propertyId/history
+- GET /api/verification/:propertyId/legal
+- GET /api/verification/:propertyId/legal-summary
+- GET /api/verification/:propertyId/legal-statistics
 
-## Testing & Regression
-- Run unit/integration tests.
-- Ensure no existing Phase 1 endpoint is broken.
+---
 
-## Final Verification Checklist
-- [ ] Architecture preserved
-- [ ] MongoDB & Dataset Engine inspected
-- [ ] Real MongoDB examples used in Swagger
-- [ ] Documentation completed
-- [ ] Unit & regression tests passed
-- [ ] Local Git commit created
-- [ ] No GitHub push performed
+## Documentation Constraints
+- Use MongoDB-driven dynamic computation language only.
+- Never include hardcoded metric values.
+- Clearly separate database attributes from computed backend fields.
+- State that Module 6 consumes Module 5 outputs.
 
-## Git Rules
-- Local commit only (`feat(verification): implement backend phase 2 module 5`).
-- DO NOT push.
+---
+
+## Verification Checklist
+- Module 5 plan exists and is complete.
+- Module 5 report template exists.
+- Module 5 module documentation exists.
+- Module 5 prompt aligns with final Phase 2 structure.
+- No code, Swagger, MongoDB, or repository changes were made.

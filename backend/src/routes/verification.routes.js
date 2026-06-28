@@ -4,7 +4,11 @@ import {
   getVerificationSummary,
   getVerificationDetails,
   getVerificationSignals,
-  getVerificationWorkflow
+  getVerificationWorkflow,
+  getLegalVerification,
+  getLegalSummary,
+  getLegalStatistics,
+  getLegalDetails
 } from '../controllers/verification.controller.js';
 import { validateRequest } from '../middleware/validate.middleware.js';
 import { propertyIdParamSchema } from '../validators/property.validator.js';
@@ -234,5 +238,163 @@ router.get('/:propertyId/signals', validateRequest(propertyIdParamSchema), async
  *         $ref: '#/components/responses/InternalServerError'
  */
 router.get('/:propertyId/workflow', validateRequest(propertyIdParamSchema), asyncWrapper(getVerificationWorkflow));
+
+/**
+ * @swagger
+ * /api/verification/{propertyId}/legal:
+ *   get:
+ *     summary: Get legal verification status
+ *     description: Retrieves the high-level legal verification status of a property, including active and resolved dispute counts.
+ *     tags: [Verification]
+ *     parameters:
+ *       - $ref: '#/components/parameters/propertyId'
+ *     responses:
+ *       200:
+ *         description: Legal verification retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success: { type: 'boolean', example: true }
+ *                 message: { type: 'string', example: 'Legal verification retrieved successfully' }
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     property_id: { type: 'string', example: 'PROP-KOK-000005', description: 'Database Field' }
+ *                     status: { type: 'string', example: 'resolved_dispute', description: 'Computed Backend Field' }
+ *                     active_dispute_count: { type: 'integer', example: 0, description: 'Computed Backend Field' }
+ *                     resolved_dispute_count: { type: 'integer', example: 1, description: 'Computed Backend Field' }
+ *                     legal_risk_flags: { type: 'array', items: { type: 'string' }, example: [], description: 'Computed Backend Field' }
+ *                     legal_summary: { type: 'string', example: 'Past disputes were resolved. Property is currently clear.', description: 'Computed Backend Field' }
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
+router.get('/:propertyId/legal', validateRequest(propertyIdParamSchema), asyncWrapper(getLegalVerification));
+
+/**
+ * @swagger
+ * /api/verification/{propertyId}/legal-summary:
+ *   get:
+ *     summary: Get legal verification summary
+ *     description: Retrieves a concise summary of the legal status and associated risk flags.
+ *     tags: [Verification]
+ *     parameters:
+ *       - $ref: '#/components/parameters/propertyId'
+ *     responses:
+ *       200:
+ *         description: Legal summary retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success: { type: 'boolean', example: true }
+ *                 message: { type: 'string', example: 'Legal summary retrieved successfully' }
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     property_id: { type: 'string', example: 'PROP-KOK-000005', description: 'Database Field' }
+ *                     status: { type: 'string', example: 'resolved_dispute', description: 'Computed Backend Field' }
+ *                     legal_summary: { type: 'string', example: 'Past disputes were resolved. Property is currently clear.', description: 'Computed Backend Field' }
+ *                     risk_flags: { type: 'array', items: { type: 'string' }, example: [], description: 'Computed Backend Field' }
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
+router.get('/:propertyId/legal-summary', validateRequest(propertyIdParamSchema), asyncWrapper(getLegalSummary));
+
+/**
+ * @swagger
+ * /api/verification/{propertyId}/legal-statistics:
+ *   get:
+ *     summary: Get legal verification statistics
+ *     description: Retrieves statistical data about the legal history of the property.
+ *     tags: [Verification]
+ *     parameters:
+ *       - $ref: '#/components/parameters/propertyId'
+ *     responses:
+ *       200:
+ *         description: Legal statistics retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success: { type: 'boolean', example: true }
+ *                 message: { type: 'string', example: 'Legal statistics retrieved successfully' }
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     property_id: { type: 'string', example: 'PROP-KOK-000005', description: 'Database Field' }
+ *                     active_disputes: { type: 'integer', example: 0, description: 'Computed Backend Field' }
+ *                     resolved_disputes: { type: 'integer', example: 1, description: 'Computed Backend Field' }
+ *                     total_disputes: { type: 'integer', example: 1, description: 'Computed Backend Field' }
+ *                     status: { type: 'string', example: 'resolved_dispute', description: 'Computed Backend Field' }
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
+router.get('/:propertyId/legal-statistics', validateRequest(propertyIdParamSchema), asyncWrapper(getLegalStatistics));
+
+/**
+ * @swagger
+ * /api/verification/{propertyId}/legal-details:
+ *   get:
+ *     summary: Get comprehensive legal verification details and timeline
+ *     description: Retrieves full legal details including a combined timeline of ownership transfers and legal events.
+ *     tags: [Verification]
+ *     parameters:
+ *       - $ref: '#/components/parameters/propertyId'
+ *     responses:
+ *       200:
+ *         description: Legal details retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success: { type: 'boolean', example: true }
+ *                 message: { type: 'string', example: 'Legal details retrieved successfully' }
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     property_id: { type: 'string', example: 'PROP-KOK-000005', description: 'Database Field' }
+ *                     status: { type: 'string', example: 'resolved_dispute', description: 'Computed Backend Field' }
+ *                     legal_summary: { type: 'string', example: 'Past disputes were resolved. Property is currently clear.', description: 'Computed Backend Field' }
+ *                     active_dispute_count: { type: 'integer', example: 0, description: 'Computed Backend Field' }
+ *                     resolved_dispute_count: { type: 'integer', example: 1, description: 'Computed Backend Field' }
+ *                     legal_risk_flags: { type: 'array', items: { type: 'string' }, example: [], description: 'Computed Backend Field' }
+ *                     timeline:
+ *                       type: array
+ *                       description: 'Computed Backend Field: Unified historical timeline'
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           event_type: { type: 'string', example: 'sale_agreement_dispute' }
+ *                           event_date: { type: 'string', example: '2026-06-26' }
+ *                           source_collection: { type: 'string', example: 'court_disputes' }
+ *                           title: { type: 'string', example: 'Legal Dispute: sale_agreement_dispute' }
+ *                           description: { type: 'string', example: 'Dispute status is closed' }
+ *                           severity: { type: 'string', example: 'warning' }
+ *                           metadata: { type: 'object', example: { dispute_id: 'DISP-KOK-000005', status: 'closed' } }
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
+router.get('/:propertyId/legal-details', validateRequest(propertyIdParamSchema), asyncWrapper(getLegalDetails));
 
 export default router;

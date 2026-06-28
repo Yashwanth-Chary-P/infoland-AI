@@ -6,6 +6,7 @@ import documentRoutes from './document.routes.js';
 import { loanRouter, taxRouter, disputeRouter, financialRouter } from './financial.routes.js';
 import healthRoutes from './health.routes.js';
 import verificationRoutes from './verification.routes.js';
+import assessmentRoutes from './assessment.routes.js';
 
 const router = express.Router();
 
@@ -19,5 +20,6 @@ router.use('/disputes', disputeRouter);
 router.use('/financial', financialRouter);
 router.use('/property-health', healthRoutes);
 router.use('/verification', verificationRoutes);
+router.use('/assessment', assessmentRoutes);
 
 export default router;

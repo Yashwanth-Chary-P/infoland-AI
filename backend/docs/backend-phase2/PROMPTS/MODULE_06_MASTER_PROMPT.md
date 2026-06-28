@@ -1,57 +1,86 @@
-# Module 6 Master Prompt: Location Intelligence Engine
+# Module 6 Master Prompt: Location Intelligence and Final Assessment Engine
 
 ## Objective
-Implement **ONLY Backend Phase 2 – Module 6 (Location Intelligence Engine)**. 
+Implement ONLY Backend Phase 2 Module 6 documentation and planning outcomes for the final backend module.
 
-## Module Scope
-- Location scores
+Do NOT modify backend code.
+
+Do NOT modify Swagger.
+
+Do NOT modify MongoDB.
+
+Do NOT modify repositories.
+
+---
+
+## Scope
+Collections
+
+- location_scores
+- synthetic_pois
+- property_profiles
+- property_health_summary
+- documents_all
+- owners
+- loans
+- tax_records
+- court_disputes
+
+Responsibilities
+
+- Location intelligence
 - Nearby POIs
-- Accessibility
-- Region intelligence
-- Future development indicators
-- Property surroundings
+- Location scores
+- Future risk indicators
+- Risk assessment
+- Unified verification report
+- Dashboard summary
+- Property assessment
 
-## Collections
-- `location_scores`
-- `synthetic_pois`
-- Related location datasets (e.g. from `master_properties`)
+---
 
-## MongoDB & Dataset Engine Inspection Rules
-- Inspect MongoDB collections, indexes, relationships, and field names before coding.
-- Verify against Dataset Engine `FIELD_REFERENCE.md` and release reports.
-- Never assume field existence.
+## Required Outputs
+Produce module documentation that includes
 
-## Release Report Verification
-- Do not hardcode values from `release/reports/`.
-- Compute everything dynamically from MongoDB and compare with reports.
+- Architecture
+- Collections
+- Repository Strategy
+- Business Rules
+- Expected APIs
+- Computed Backend Fields
+- Swagger Requirements
+- Testing Strategy
+- Dataset Verification
+- Release Report Verification
+- Performance Notes
+- Future Integration
+- Known Limitations
+- Lessons Learned
 
-## Architecture Rules
-- Strictly adhere to Routes -> Controllers -> Services -> Repositories -> MongoDB.
+---
 
-## Repository, Controller, Service & Validation Rules
-- Follow existing patterns.
-- Do not duplicate business logic.
-- Validate inputs using centralized validation.
-- Avoid N+1 queries; use `Promise.all`.
+## API Expectations
+Document expected endpoints
 
-## Swagger Requirements
-- Update Swagger professionally with summary, descriptions, tags, and request/response schemas.
-- Use **real MongoDB examples**.
-- Clearly document Computed Backend Fields.
+- GET /api/verification/:propertyId/location-intelligence
+- GET /api/verification/:propertyId/risk-assessment
+- GET /api/verification/:propertyId/dashboard-summary
+- GET /api/verification/:propertyId/unified-report
+- GET /api/verification/:propertyId/final-assessment
 
-## Testing & Regression
-- Run unit/integration tests.
-- Ensure no existing Phase 1 endpoint is broken.
+---
 
-## Final Verification Checklist
-- [ ] Architecture preserved
-- [ ] MongoDB & Dataset Engine inspected
-- [ ] Real MongoDB examples used in Swagger
-- [ ] Documentation completed
-- [ ] Unit & regression tests passed
-- [ ] Local Git commit created
-- [ ] No GitHub push performed
+## Documentation Constraints
+- Use dynamic, data-driven computation language only.
+- Never include fabricated scores or static report totals.
+- Clearly describe Module 6 as the final backend module.
+- Explicitly state Module 6 consumes Module 5 legal and timeline outputs.
 
-## Git Rules
-- Local commit only (`feat(verification): implement backend phase 2 module 6`).
-- DO NOT push.
+---
+
+## Verification Checklist
+- Module 6 plan exists and is complete.
+- Module 6 report template exists.
+- Module 6 module documentation exists.
+- Module 6 prompt aligns with final Phase 2 structure.
+- No code, Swagger, MongoDB, or repository changes were made.

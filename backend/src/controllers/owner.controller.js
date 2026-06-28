@@ -29,6 +29,11 @@ export const getOwnershipTimeline = async (req, res) => {
   res.json(successResponse('Ownership timeline retrieved successfully', data));
 };
 
+export const getOwnershipTransfers = async (req, res) => {
+  const data = await ownerService.getOwnershipTransfers(req.params.propertyId);
+  res.json(successResponse('Ownership transfers retrieved successfully', data));
+};
+
 export const getRegistryInformation = async (req, res) => {
   const data = await ownerService.getRegistryInformation(req.params.propertyId);
   res.json(successResponse('Registry information retrieved successfully', data));

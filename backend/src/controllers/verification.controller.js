@@ -25,3 +25,25 @@ export const getVerificationWorkflow = async (req, res) => {
   const data = await verificationService.getVerificationWorkflow(req.params.propertyId);
   res.json(successResponse('Verification workflow retrieved successfully', data));
 };
+
+import legalService from '../services/legal.service.js';
+
+export const getLegalVerification = async (req, res) => {
+  const data = await legalService.getLegalStatus(req.params.propertyId);
+  res.json(successResponse('Legal verification retrieved successfully', data));
+};
+
+export const getLegalSummary = async (req, res) => {
+  const data = await legalService.getLegalSummary(req.params.propertyId);
+  res.json(successResponse('Legal summary retrieved successfully', data));
+};
+
+export const getLegalStatistics = async (req, res) => {
+  const data = await legalService.getLegalStatistics(req.params.propertyId);
+  res.json(successResponse('Legal statistics retrieved successfully', data));
+};
+
+export const getLegalDetails = async (req, res) => {
+  const data = await legalService.getLegalDetails(req.params.propertyId);
+  res.json(successResponse('Legal details retrieved successfully', data));
+};

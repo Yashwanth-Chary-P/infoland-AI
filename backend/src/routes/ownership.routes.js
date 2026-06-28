@@ -4,6 +4,7 @@ import {
   getCurrentOwner,
   getOwnershipHistoryV2,
   getOwnershipTimeline,
+  getOwnershipTransfers,
   getRegistryInformation,
   getOwnershipValidation,
   getOwnershipSummary,
@@ -163,6 +164,41 @@ router.get('/:propertyId/history', validateRequest(propertyIdParamSchema), async
  *         $ref: '#/components/responses/InternalServerError'
  */
 router.get('/:propertyId/timeline', validateRequest(propertyIdParamSchema), asyncWrapper(getOwnershipTimeline));
+
+/**
+ * @swagger
+ * /api/ownership/{propertyId}/transfers:
+ *   get:
+ *     summary: Get continuous chain of ownership transfers
+ *     tags: [Ownership & Registry]
+ *     parameters:
+ *       - $ref: '#/components/parameters/propertyId'
+ *     responses:
+ *       200:
+ *         description: Ownership transfers retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success: { type: 'boolean', example: true }
+ *                 message: { type: 'string', example: 'Ownership transfers retrieved successfully' }
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     property_id: { type: 'string', example: 'PROP-KOK-000001', description: 'Computed Backend Field' }
+ *                     transfers:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
+router.get('/:propertyId/transfers', validateRequest(propertyIdParamSchema), asyncWrapper(getOwnershipTransfers));
 
 /**
  * @swagger
