@@ -1,6 +1,11 @@
-import { fetchDataset } from './datasetClient';
+import apiClient from '../apiClient';
 
 export const getMetadataByPropertyId = async (propertyId) => {
-  const metadata = await fetchDataset('property_metadata.json');
-  return metadata?.find(m => m.property_id === propertyId) || null;
+  try {
+    const res = await apiClient.get(`/properties/${propertyId}`);
+    return res.data?.metadata || null;
+  } catch (error) {
+    console.error('Error fetching metadata:', error);
+    return null;
+  }
 };

@@ -51,8 +51,13 @@ export const buildFilter = (query, allowedFields) => {
  * @returns {object} MongoDB sort object
  */
 export const buildSort = (query, defaultSort = '-createdAt') => {
+  let sortStr = defaultSort;
   if (query.sort) {
-    return query.sort.split(',').join(' ');
+    sortStr = query.sort.split(',').join(' ');
   }
-  return defaultSort;
+  // Ensure stable pagination by always appending _id as a secondary sort
+  if (!sortStr.includes('_id')) {
+    sortStr += ' _id';
+  }
+  return sortStr;
 };

@@ -1,6 +1,11 @@
-import { fetchDataset } from './datasetClient';
+import apiClient from '../apiClient';
 
 export const getTaxesByPropertyId = async (propertyId) => {
-  const taxes = await fetchDataset('tax_records.json');
-  return taxes?.filter(t => t.property_id === propertyId) || [];
+  try {
+    const res = await apiClient.get(`/financial/${propertyId}/taxes`);
+    return res.data || [];
+  } catch (error) {
+    console.error('Error fetching taxes:', error);
+    return [];
+  }
 };

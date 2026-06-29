@@ -1,10 +1,9 @@
-import { fetchDataset } from './datasetClient';
-
-export const getPOIs = async () => {
-  return await fetchDataset('synthetic_pois.json');
+export const getPOIsByPropertyId = async (propertyId) => {
+  // POI backend endpoint does not exist yet for this property.
+  // Returning empty array to gracefully remove mock data dependency without breaking the UI.
+  return [];
 };
 
-export const getPOIsByPropertyId = async (propertyId) => {
-  const pois = await getPOIs();
-  return pois?.filter(p => p.property_id === propertyId) || [];
+export const getPOIs = async () => {
+  return [];
 };

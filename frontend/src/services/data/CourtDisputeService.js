@@ -1,6 +1,11 @@
-import { fetchDataset } from './datasetClient';
+import apiClient from '../apiClient';
 
 export const getCourtDisputesByPropertyId = async (propertyId) => {
-  const disputes = await fetchDataset('court_disputes.json');
-  return disputes?.filter(d => d.property_id === propertyId) || [];
+  try {
+    const res = await apiClient.get(`/disputes/${propertyId}`);
+    return res.data || [];
+  } catch (error) {
+    console.error('Error fetching court disputes:', error);
+    return [];
+  }
 };

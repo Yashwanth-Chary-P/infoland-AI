@@ -1,6 +1,11 @@
-import { fetchDataset } from './datasetClient';
+import apiClient from '../apiClient';
 
 export const getTimelineByPropertyId = async (propertyId) => {
-  const timelines = await fetchDataset('property_timeline.json');
-  return timelines?.find(t => t.property_id === propertyId) || null;
+  try {
+    const res = await apiClient.get(`/ownership/${propertyId}/timeline`);
+    return res.data?.timeline || null;
+  } catch (error) {
+    console.error('Error fetching property timeline:', error);
+    return null;
+  }
 };

@@ -1,19 +1,31 @@
-import { fetchDataset } from './datasetClient';
+import apiClient from '../apiClient';
 
-export const getPropertyProfiles = async () => fetchDataset('property_profiles.json');
 export const getPropertyProfileById = async (propertyId) => {
-  const profiles = await getPropertyProfiles();
-  return profiles?.find(p => p.property_id === propertyId) || null;
+  try {
+    const res = await apiClient.get(`/properties/${propertyId}`);
+    return res.data?.profile || null;
+  } catch (error) {
+    console.error('Error fetching property profile:', error);
+    return null;
+  }
 };
 
-export const getPropertyRegistry = async () => fetchDataset('property_registry.json');
 export const getRegistryByPropertyId = async (propertyId) => {
-  const registry = await getPropertyRegistry();
-  return registry?.find(r => r.property_id === propertyId) || null;
+  try {
+    const res = await apiClient.get(`/ownership/${propertyId}/registry`);
+    return res.data || null;
+  } catch (error) {
+    console.error('Error fetching property registry:', error);
+    return null;
+  }
 };
 
-export const getPropertyHealthSummary = async () => fetchDataset('property_health_summary.json');
 export const getHealthSummaryByPropertyId = async (propertyId) => {
-  const summaries = await getPropertyHealthSummary();
-  return summaries?.find(s => s.property_id === propertyId) || null;
+  try {
+    const res = await apiClient.get(`/properties/${propertyId}`);
+    return res.data?.healthSummary || null;
+  } catch (error) {
+    console.error('Error fetching property health summary:', error);
+    return null;
+  }
 };

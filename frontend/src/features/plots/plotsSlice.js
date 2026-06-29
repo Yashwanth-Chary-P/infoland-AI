@@ -4,20 +4,26 @@ import { fetchAllProperties } from '../../services/data/PropertyService';
 // Fetch all plots
 export const fetchPlots = createAsyncThunk(
   'plots/fetchPlots',
-  async () => {
-    const data = await fetchAllProperties();
-    return data || [];
+  async (params, { rejectWithValue }) => {
+    try {
+      const data = await fetchAllProperties(params);
+      return data || [];
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch properties');
+    }
   }
 );
 
 const plotsSlice = createSlice({
   name: 'plots',
   initialState: {
-    plots: [],                       // Will be replaced with backend data
-    selectedPlotId: null,            // DO NOT CHANGE (your UI uses this)
+    plots: [],
+    selectedPlotId: null,
+    loading: false,
+    error: null,
   },
   reducers: {
-    selectPlot: (state, action) => { // DO NOT CHANGE
+    selectPlot: (state, action) => {
       state.selectedPlotId = action.payload;
     },
     clearSelection: (state) => {
@@ -26,8 +32,18 @@ const plotsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchPlots.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(fetchPlots.fulfilled, (state, action) => {
-        state.plots = action.payload;
+        state.loading = false;
+        state.plots = action.payload.data;
+        state.pagination = action.payload.pagination;
+      })
+      .addCase(fetchPlots.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   }
 });

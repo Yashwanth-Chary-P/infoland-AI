@@ -9,7 +9,6 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchPlots());
-    dispatch(fetchDetailedPlots());
   }, [dispatch]);
 
   return <AppRouter />;

@@ -1,6 +1,12 @@
-import { fetchDataset } from './datasetClient';
+import apiClient from '../apiClient';
 
 export const getLoansByPropertyId = async (propertyId) => {
-  const loans = await fetchDataset('loans.json');
-  return loans?.filter(l => l.property_id === propertyId) || [];
+  try {
+    const res = await apiClient.get(`/financial/${propertyId}/loans`);
+    // Financial routes return { data: [ ...loans... ] }
+    return res.data || [];
+  } catch (error) {
+    console.error('Error fetching loans:', error);
+    return [];
+  }
 };

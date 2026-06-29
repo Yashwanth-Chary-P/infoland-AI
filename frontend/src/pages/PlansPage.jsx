@@ -44,7 +44,6 @@ export default function PlansSection() {
   const navigate = useNavigate();
 
   const handleSelectPlan = (plan) => {
-    console.log("Selected plan:", plan);
     // ✅ Navigate to checkout page with plan data
     navigate("/checkout", { state: { selectedPlan: plan } });
   };

@@ -1,27 +1,35 @@
+import React, { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "../components/Navbar.jsx";
-import Footer from "../components/Footer.jsx";
+
+// Layout
+import AppLayout from "../components/layout/AppLayout.jsx";
+
+// Public Pages
 import Home from "../pages/Home/Home.jsx";
-import CardSelection from "../pages/CardSelection/CardSelection.jsx";
-import MapSelection from "../pages/ColonyMap/MapSelection.jsx";
-import PlotDetailsPage from "../components/PlotDetailsPage.jsx";
 import About from "../pages/About.jsx";
 import Contact from "../pages/Contact.jsx";
-import PlotMap from "../pages/MapSelection/PlotMap.jsx";
-import StatsPage from "../pages/Home/StatsPage.jsx";
-import PlansPage from "../pages/PlansPage.jsx";
-import WhyUsPage from "../pages/Home/WhyUsPage.jsx";
-import LawyerPage from "../pages/Home/LawyerPage.jsx";
 import Login from "../components/Login.jsx";
 import Register from "../components/Register.jsx";
-import PrivateRoute from "./PrivateRoute.jsx"; // ✅ import PrivateRoute
+
+// Routing Utilities
+import PrivateRoute from "./PrivateRoute.jsx";
+import LoadingSpinner from "../components/LoadingSpinner.jsx";
+
+// Lazy-loaded Pages (Core Application)
+const Explore = React.lazy(() => import("../pages/Explore/Explore.jsx"));
+const Dashboard = React.lazy(() => import("../pages/Dashboard/Dashboard.jsx"));
+const Insights = React.lazy(() => import("../pages/Insights/Insights.jsx"));
+const PlotDetailsPage = React.lazy(() => import("../components/PlotDetailsPage.jsx"));
 
 const AppRouter = () => {
   return (
     <Router>
-      <div className="App min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-grow">
+      <AppLayout>
+        <Suspense fallback={
+          <div className="flex-1 flex justify-center items-center h-[60vh]">
+            <LoadingSpinner message="Loading..." />
+          </div>
+        }>
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
@@ -29,48 +37,46 @@ const AppRouter = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/stats" element={<StatsPage />} />
-            <Route path="/plans" element={<PlansPage />} />
-            <Route path="/whyus" element={<WhyUsPage />} />
-            <Route path="/lawyers" element={<LawyerPage />} />
+            <Route path="/insights" element={<Insights />} />
+            <Route path="/explore" element={<Explore />} />
 
-            {/* ✅ Private Routes (Require Auth) */}
+            {/* Private Routes (Require Auth) */}
             <Route
-              path="/cards"
+              path="/dashboard"
               element={
                 <PrivateRoute>
-                  <CardSelection />
+                  <Dashboard />
                 </PrivateRoute>
               }
             />
+            {/* 
+              Renamed from /plot/:plotId to /property/:plotId as per architecture.
+              Still using the legacy PlotDetailsPage component until Module 03 redesigns it.
+            */}
             <Route
-              path="/map"
-              element={
-                <PrivateRoute>
-                  <MapSelection />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/plot"
-              element={
-                <PrivateRoute>
-                  <PlotMap />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/plot/:plotId"
+              path="/property/:plotId"
               element={
                 <PrivateRoute>
                   <PlotDetailsPage />
                 </PrivateRoute>
               }
             />
+
+            {/* 
+              Deprecated Routes (Removed from Router):
+              - /plans -> PlansPage.jsx
+              - /whyus -> WhyUsPage.jsx
+              - /lawyers -> LawyerPage.jsx
+              - /stats -> StatsPage.jsx
+              - /cards -> CardSelection.jsx
+              - /map -> MapSelection.jsx
+              - /plot -> PlotMap.jsx
+              
+              Files are kept in the project for rollback purposes but are no longer accessible.
+            */}
           </Routes>
-        </main>
-        <Footer />
-      </div>
+        </Suspense>
+      </AppLayout>
     </Router>
   );
 };
