@@ -38,30 +38,30 @@ const Navbar = ({ onOpenSearch }) => {
         isScrolled ? 'bg-white/80 backdrop-blur-md border-b border-border shadow-sm' : 'bg-transparent border-b border-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[90rem] mx-auto px-6 md:px-10 lg:px-12">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center gap-2 group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md">
-              <div className="w-8 h-8 rounded bg-primary flex items-center justify-center text-white font-bold transition-transform group-hover:scale-105">
+              <div className="w-8 h-8 rounded bg-slate-900 flex items-center justify-center text-white font-bold transition-transform group-hover:scale-105">
                 IL
               </div>
               <span className="font-bold text-xl tracking-tight text-slate-900">
-                InfoLand <span className="text-primary">AI</span>
+                InfoLand <span className="text-slate-500 font-medium text-lg">AI</span>
               </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-1 items-center">
+          <nav className="hidden md:flex space-x-2 items-center mx-auto">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                   isActive(link.path)
-                    ? 'text-primary bg-blue-50/50'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                    ? 'text-slate-900 bg-slate-100'
+                    : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
                 }`}
                 aria-current={isActive(link.path) ? 'page' : undefined}
               >
@@ -71,25 +71,26 @@ const Navbar = ({ onOpenSearch }) => {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-6">
             <button
               onClick={onOpenSearch}
-              className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-600 bg-slate-50 hover:bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               aria-label="Search"
             >
               <Search className="w-4 h-4" />
-              <span>Search...</span>
-              <kbd className="hidden lg:inline-block text-[10px] font-sans font-semibold bg-white border border-slate-300 rounded px-1.5 py-0.5 ml-2 text-slate-400 shadow-sm">
+              <span className="w-24 text-left">Search...</span>
+              <kbd className="hidden lg:inline-flex items-center justify-center text-[10px] font-sans font-semibold bg-white border border-slate-200 rounded px-1.5 py-0.5 text-slate-400 shadow-sm">
                 ⌘K
               </kbd>
             </button>
-            <div className="h-5 w-px bg-slate-300"></div>
-            <Link to="/login" className="focus:outline-none rounded-md">
-              <Button variant="ghost" size="sm" className="hidden lg:flex">Sign in</Button>
-            </Link>
-            <Link to="/register" className="focus:outline-none rounded-md">
-              <Button variant="primary" size="sm">Get Started</Button>
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link to="/login" className="focus:outline-none rounded-md">
+                <Button variant="ghost" size="sm" className="hidden lg:flex font-medium text-slate-600 hover:text-slate-900">Sign in</Button>
+              </Link>
+              <Link to="/register" className="focus:outline-none rounded-md">
+                <Button variant="primary" size="sm" className="bg-slate-900 hover:bg-slate-800 text-white font-medium border-transparent shadow-sm">Get Started</Button>
+              </Link>
+            </div>
           </div>
 
           {/* Mobile menu button */}

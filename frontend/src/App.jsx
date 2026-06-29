@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { fetchPlots } from './features/plots/plotsSlice.js';
 import { fetchDetailedPlots } from './features/detailedPlots/detailedPlotsSlice.js';
 import AppRouter from './routers/router.jsx';
+import './lib/chart.js'; // Initialize global ChartJS configurations
 
 function App() {
   const dispatch = useDispatch();
