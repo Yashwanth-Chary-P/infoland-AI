@@ -46,12 +46,31 @@ const detailedPlotsSlice = createSlice({
     selected: null,
     loading: false,
     error: null,
+    exploreUI: {
+      lastParams: null,
+      page: 1,
+      selectedId: null,
+      hoveredId: null,
+      scrollPosition: 0
+    }
   },
 
   reducers: {
     clearSelectedPlot: (state) => {
       state.selected = null;
     },
+    setExploreUI: (state, action) => {
+      state.exploreUI = { ...state.exploreUI, ...action.payload };
+    },
+    resetExploreUI: (state) => {
+      state.exploreUI = {
+        lastParams: null,
+        page: 1,
+        selectedId: null,
+        hoveredId: null,
+        scrollPosition: 0
+      };
+    }
   },
 
   extraReducers: (builder) => {
@@ -129,5 +148,5 @@ const detailedPlotsSlice = createSlice({
   },
 });
 
-export const { clearSelectedPlot } = detailedPlotsSlice.actions;
+export const { clearSelectedPlot, setExploreUI, resetExploreUI } = detailedPlotsSlice.actions;
 export default detailedPlotsSlice.reducer;
