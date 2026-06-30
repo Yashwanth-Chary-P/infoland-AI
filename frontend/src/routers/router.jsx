@@ -10,6 +10,7 @@ import About from "../pages/About.jsx";
 import Contact from "../pages/Contact.jsx";
 import Login from "../components/Login.jsx";
 import Register from "../components/Register.jsx";
+import PlotMap from "../pages/MapSelection/PlotMap.jsx";
 
 // Routing Utilities
 import PrivateRoute from "./PrivateRoute.jsx";
@@ -19,7 +20,7 @@ import LoadingSpinner from "../components/LoadingSpinner.jsx";
 const Explore = React.lazy(() => import("../pages/Explore/Explore.jsx"));
 const Dashboard = React.lazy(() => import("../pages/Dashboard/Dashboard.jsx"));
 const Insights = React.lazy(() => import("../pages/Insights/Insights.jsx"));
-const PlotDetailsPage = React.lazy(() => import("../components/PlotDetailsPage.jsx"));
+const PropertyReport = React.lazy(() => import("../pages/PropertyReport/PropertyReport.jsx"));
 
 const AppRouter = () => {
   return (
@@ -39,6 +40,7 @@ const AppRouter = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/insights" element={<Insights />} />
             <Route path="/explore" element={<Explore />} />
+            <Route path="/plot" element={<PlotMap />} />
 
             {/* Private Routes (Require Auth) */}
             <Route
@@ -51,13 +53,13 @@ const AppRouter = () => {
             />
             {/* 
               Renamed from /plot/:plotId to /property/:plotId as per architecture.
-              Still using the legacy PlotDetailsPage component until Module 03 redesigns it.
+              Using the new Module 03 Property Intelligence Report.
             */}
             <Route
               path="/property/:plotId"
               element={
                 <PrivateRoute>
-                  <PlotDetailsPage />
+                  <PropertyReport />
                 </PrivateRoute>
               }
             />
