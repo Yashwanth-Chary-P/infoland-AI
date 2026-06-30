@@ -18,7 +18,7 @@ import { getPOIs } from "../../services/data/POIService";
 import L from "leaflet";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-
+import { extractPolygonCoordinates, REGIONS, isPointInsidePolygon } from "../../utils/mapUtils";
 // Setup default marker icon
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -28,26 +28,6 @@ let DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-/* -------------------------------------------
-   POINT-IN-POLYGON DETECTION (GeoJSON [lng, lat])
--------------------------------------------- */
-function isPointInsidePolygon(clickLat, clickLng, geoJsonRing) {
-  let inside = false;
-
-  for (let i = 0, j = geoJsonRing.length - 1; i < geoJsonRing.length; j = i++) {
-    const xi = geoJsonRing[i][0]; // lng
-    const yi = geoJsonRing[i][1]; // lat
-    const xj = geoJsonRing[j][0]; // lng
-    const yj = geoJsonRing[j][1]; // lat
-
-    const intersect =
-      yi > clickLat !== yj > clickLat &&
-      clickLng < ((xj - xi) * (clickLat - yi)) / (yj - yi) + xi;
-
-    if (intersect) inside = !inside;
-  }
-  return inside;
-}
 
 function MapClickHandler({ onClick }) {
   useMapEvents({
@@ -67,11 +47,6 @@ function MapController({ center, zoom }) {
   return null;
 }
 
-const REGIONS = [
-  { name: 'Kokapet', center: [17.3948, 78.3276], zoom: 14 },
-  { name: 'Mokila', center: [17.4332, 78.2036], zoom: 14 },
-  { name: 'Shankarpally', center: [17.4475, 78.1257], zoom: 14 }
-];
 
 const PlotMap = () => {
   const [selectedRegion, setSelectedRegion] = useState(null);
@@ -139,10 +114,13 @@ const PlotMap = () => {
       const data = response.payload || matchedPlot;
 
       // 3️⃣ Fix polygon auto-close & convert to [lat, lng]
-      const poly = data.geometry?.coordinates?.[0] || matchedPlot.geometry?.coordinates?.[0];
-      const leafletCoords = poly.map(pt => [pt[1], pt[0]]);
+      const leafletCoords = extractPolygonCoordinates(data) || extractPolygonCoordinates(matchedPlot);
       
-      setPolygon(leafletCoords);
+      if (leafletCoords) {
+        setPolygon(leafletCoords);
+      } else {
+        setPolygon([]);
+      }
 
       // 4️⃣ Update sidebar strictly with backend fields
       setLandDetails({
@@ -164,9 +142,8 @@ const PlotMap = () => {
   // Memoize polygons to prevent re-rendering during sidebar updates
   const renderedPolygons = useMemo(() => {
     return detailedPlots.map((plot) => {
-      if (!plot.geometry || !plot.geometry.coordinates) return null;
-      const coords = plot.geometry.coordinates[0];
-      const leafletCoords = coords.map(pt => [pt[1], pt[0]]);
+      const leafletCoords = extractPolygonCoordinates(plot);
+      if (!leafletCoords) return null;
 
       return (
         <Polygon
