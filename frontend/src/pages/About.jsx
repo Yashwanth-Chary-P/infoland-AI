@@ -19,7 +19,7 @@ const About = () => {
     <div className="flex flex-col min-h-screen bg-white">
       {/* Editorial Header */}
       <section className="pt-40 pb-24 border-b border-slate-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-7xl mx-auto px-8 lg:px-10 xl:px-12 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -41,7 +41,7 @@ const About = () => {
 
       {/* Methodology Section (Editorial Layout) */}
       <section className="py-32">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-8 lg:px-10 xl:px-12">
           <div className="grid md:grid-cols-12 gap-16">
             <div className="md:col-span-4">
               <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Methodology</h2>
@@ -87,7 +87,7 @@ const About = () => {
 
       {/* Tech Stack Visuals */}
       <section className="py-32 bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-8 lg:px-10 xl:px-12">
           <div className="grid lg:grid-cols-2 gap-24 items-center">
             <div>
               <h2 className="text-4xl font-bold mb-8 leading-tight">Built for enterprise <br/>scale and security.</h2>
@@ -141,7 +141,7 @@ const About = () => {
 
       {/* FAQ (Editorial format) */}
       <section className="py-32 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-8 lg:px-10 xl:px-12">
           <div className="mb-20">
             <h2 className="text-4xl font-bold text-slate-900">Frequently Asked Questions</h2>
           </div>

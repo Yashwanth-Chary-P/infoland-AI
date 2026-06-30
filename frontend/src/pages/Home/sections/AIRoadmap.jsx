@@ -36,22 +36,22 @@ const AIRoadmap = () => {
 
   return (
     <section className="py-24 bg-white" ref={ref}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 xl:px-10">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center max-w-3xl mx-auto mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 border border-purple-100 mb-4">
-            <Sparkles className="w-4 h-4 text-accent" />
-            <span className="text-xs font-bold tracking-wider uppercase text-accent">Phase 2 Roadmap</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 border border-violet-100 mb-6">
+            <Sparkles className="w-4 h-4 text-violet-600" />
+            <span className="text-xs font-bold tracking-widest uppercase text-violet-600">Phase 2 Roadmap</span>
           </div>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
+          <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 tracking-tight">
             The future of Property Intelligence.
           </h3>
-          <p className="text-lg text-slate-600">
-            We are integrating LangChain and ChromaDB to bring advanced Generative AI capabilities to property verification.
+          <p className="text-base text-slate-500 leading-relaxed">
+            We are integrating LangChain and custom foundational models to bring advanced Generative AI capabilities to property verification.
           </p>
         </motion.div>
 
@@ -63,16 +63,16 @@ const AIRoadmap = () => {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
             >
-              <Card className="h-full border-slate-200 relative overflow-hidden group">
+              <Card className="h-full border-slate-200 relative overflow-hidden group hover:-translate-y-1 transition-all hover:shadow-md hover:border-violet-200">
                 <div className="absolute top-0 right-0 p-4">
-                  <Badge variant="ai">Coming Soon</Badge>
+                  <Badge variant="ai" className="bg-violet-100 text-violet-700 border-transparent text-[10px] font-bold">Coming Soon</Badge>
                 </div>
                 <CardContent className="pt-10 pb-8">
-                  <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mb-6 group-hover:bg-purple-100 transition-colors">
-                    <feature.icon className="w-6 h-6 text-slate-600 group-hover:text-accent transition-colors" />
+                  <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center mb-6 group-hover:bg-violet-50 transition-colors">
+                    <feature.icon className="w-5 h-5 text-slate-500 group-hover:text-violet-600 transition-colors" />
                   </div>
-                  <h4 className="text-lg font-bold text-slate-900 mb-2">{feature.title}</h4>
-                  <p className="text-sm text-slate-600 leading-relaxed">
+                  <h4 className="text-lg font-bold text-slate-900 mb-3 tracking-tight">{feature.title}</h4>
+                  <p className="text-sm text-slate-500 leading-relaxed">
                     {feature.desc}
                   </p>
                 </CardContent>

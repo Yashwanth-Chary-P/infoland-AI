@@ -55,10 +55,10 @@ const VerificationWorkflow = () => {
   ];
 
   return (
-    <section className="py-32 bg-white border-b border-slate-100" ref={ref}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 bg-white border-b border-slate-100" ref={ref}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 xl:px-10">
         
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
@@ -66,78 +66,85 @@ const VerificationWorkflow = () => {
             transition={{ duration: 0.7 }}
             className="max-w-xl"
           >
-            <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Verification Pipeline</h2>
-            <h3 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
+            <h2 className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3 flex items-center gap-2">
+              <span className="w-8 h-px bg-blue-600"></span>
+              Verification Pipeline
+            </h2>
+            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-[1.2] tracking-tight">
               A legal team's weeks,<br/>reduced to seconds.
             </h3>
-            <p className="text-lg text-slate-600 mb-8 leading-relaxed">
+            <p className="text-base text-slate-500 mb-6 leading-relaxed">
               Traditional property verification is manual, error-prone, and painfully slow. The InfoLand pipeline automates hundreds of critical checks sequentially, building mathematical confidence in a property's safety.
             </p>
-            <p className="text-lg text-slate-600 leading-relaxed">
+            <p className="text-base text-slate-500 leading-relaxed">
               From extracting initial records to cross-referencing national litigation grids, every step is transparently logged.
             </p>
           </motion.div>
 
           {/* Execution Pipeline Mockup */}
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="bg-slate-900 rounded-2xl shadow-2xl border border-slate-800 p-6 md:p-10 font-mono text-sm relative overflow-hidden"
+            className="relative w-full"
           >
-            {/* Terminal Header */}
-            <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-800">
-              <div className="flex items-center gap-3">
-                <span className="text-emerald-400 font-bold">PIPELINE EXECUTION</span>
-                <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-xs">PID: 44-A9</span>
-              </div>
-              <div className="text-slate-500">Status: Running</div>
-            </div>
-
-            <div className="relative">
-              {/* Vertical alignment line */}
-              <div className="absolute left-[9px] top-4 bottom-8 w-0.5 bg-slate-800">
-                <motion.div 
-                  className="w-full bg-emerald-500"
-                  initial={{ height: 0 }}
-                  animate={inView ? { height: '80%' } : { height: 0 }}
-                  transition={{ duration: 2, ease: "easeInOut", delay: 0.5 }}
-                />
+            <div className="absolute -inset-1 bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl blur opacity-20"></div>
+            <div className="bg-[#0A0A0A] rounded-2xl border border-slate-800 p-6 md:p-8 font-mono text-sm relative z-10 overflow-hidden shadow-2xl">
+              {/* Terminal Header */}
+              <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-800/60">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                  <span className="text-slate-300 font-semibold text-xs tracking-wider">PIPELINE EXECUTION</span>
+                  <span className="px-2 py-0.5 rounded bg-slate-800/50 border border-slate-700/50 text-slate-400 text-[10px]">PID: 44-A9</span>
+                </div>
+                <div className="text-slate-500 text-xs">Status: Running</div>
               </div>
 
-              <div className="space-y-8">
-                {steps.map((step, idx) => (
+              <div className="relative pl-1">
+                {/* Vertical alignment line */}
+                <div className="absolute left-[11px] top-4 bottom-8 w-px bg-slate-800">
                   <motion.div 
-                    key={step.id}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                    transition={{ duration: 0.4, delay: 0.4 + (idx * 0.3) }}
-                    className="relative flex items-start pl-10 group"
-                  >
-                    {/* Status Marker */}
-                    <div className="absolute left-0 bg-slate-900 py-1">
-                      {step.status === 'complete' && <CheckCircle2 className="w-5 h-5 text-emerald-500 bg-slate-900" />}
-                      {step.status === 'warning' && <AlertTriangle className="w-5 h-5 text-amber-500 bg-slate-900" />}
-                      {step.status === 'loading' && <Loader2 className="w-5 h-5 text-blue-500 animate-spin bg-slate-900" />}
-                    </div>
+                    className="w-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]"
+                    initial={{ height: 0 }}
+                    animate={inView ? { height: '85%' } : { height: 0 }}
+                    transition={{ duration: 2.5, ease: "easeInOut", delay: 0.5 }}
+                  />
+                </div>
 
-                    <div className="flex-1 -mt-0.5">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className={`font-bold ${step.status === 'complete' ? 'text-slate-200' : step.status === 'warning' ? 'text-amber-400' : 'text-blue-400'}`}>
-                          {step.title}
-                        </span>
-                        <span className="text-slate-600 text-xs">{step.timestamp}</span>
+                <div className="space-y-6">
+                  {steps.map((step, idx) => (
+                    <motion.div 
+                      key={step.id}
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 10 }}
+                      transition={{ duration: 0.4, delay: 0.4 + (idx * 0.25) }}
+                      className="relative flex items-start pl-10 group"
+                    >
+                      {/* Status Marker */}
+                      <div className="absolute left-[-2px] bg-[#0A0A0A] py-1">
+                        {step.status === 'complete' && <CheckCircle2 className="w-[18px] h-[18px] text-slate-400 bg-[#0A0A0A]" />}
+                        {step.status === 'warning' && <AlertTriangle className="w-[18px] h-[18px] text-amber-500 bg-[#0A0A0A]" />}
+                        {step.status === 'loading' && <Loader2 className="w-[18px] h-[18px] text-blue-500 animate-spin bg-[#0A0A0A]" />}
                       </div>
-                      <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
-                      
-                      {step.status === 'warning' && (
-                         <div className="mt-3 p-3 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400/90 text-xs">
-                           WARN: Found 1 potential name match in eCourts. Requires manual review.
-                         </div>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
+
+                      <div className="flex-1 -mt-0.5">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className={`text-xs font-semibold tracking-wide ${step.status === 'complete' ? 'text-slate-300' : step.status === 'warning' ? 'text-amber-400' : 'text-blue-400'}`}>
+                            {step.title}
+                          </span>
+                          <span className="text-slate-600 text-[10px] font-medium">{step.timestamp}</span>
+                        </div>
+                        <p className="text-slate-500 text-xs leading-relaxed">{step.desc}</p>
+                        
+                        {step.status === 'warning' && (
+                           <div className="mt-2.5 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[11px] leading-relaxed">
+                             WARN: Found 1 potential name match in eCourts. Requires manual review.
+                           </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>

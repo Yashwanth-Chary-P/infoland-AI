@@ -47,11 +47,11 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative pt-10 pb-32 overflow-hidden bg-slate-50 border-b border-slate-200">
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.02]"></div>
+    <section className="relative pt-32 pb-24 overflow-hidden bg-white border-b border-slate-100">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50/50 via-slate-50/20 to-white pointer-events-none"></div>
 
-      <div className="max-w-[90rem] mx-auto px-6 md:px-10 lg:px-12 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-16 lg:gap-12 xl:gap-16 items-center">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 xl:px-10 relative z-10">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
           {/* Left Column: Copy & CTA (45%) */}
           <motion.div
@@ -60,31 +60,31 @@ const HeroSection = () => {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="lg:col-span-5 w-full pr-4"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 mb-10 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 mb-8 shadow-sm">
               <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
               </span>
               <span className="text-xs font-semibold text-slate-700 tracking-wide">Dataset Engine Live</span>
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-8">
+            <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-6">
               Verify property <br className="hidden md:block" />
-              with <span className="text-blue-600">mathematical precision.</span>
+              with <span className="text-blue-600 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">mathematical precision.</span>
             </h1>
 
-            <p className="text-lg text-slate-600 mb-12 leading-relaxed max-w-[90%]">
+            <p className="text-lg text-slate-500 mb-10 leading-relaxed max-w-[90%]">
               The enterprise standard for land record verification. Aggregate legal, financial, and municipal data into a single, verifiable graph of truth.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-14">
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
               <Link to="/register" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto text-base font-semibold group bg-slate-900 hover:bg-slate-800 text-white border-transparent">
+                <Button size="lg" className="w-full sm:w-auto text-sm font-semibold group bg-slate-900 hover:bg-slate-800 text-white border-transparent rounded-xl shadow-sm px-8">
                   Get Started Free
                 </Button>
               </Link>
               <Link to="/insights" className="w-full sm:w-auto">
-                <Button variant="ghost" size="lg" className="w-full sm:w-auto text-base font-semibold text-slate-600 hover:text-slate-900">
+                <Button variant="ghost" size="lg" className="w-full sm:w-auto text-sm font-medium text-slate-600 hover:text-slate-900 rounded-xl px-6">
                   Read Documentation
                   <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </Button>
@@ -112,19 +112,24 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: 20, y: 10 }}
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
-            className="lg:col-span-7 w-full"
+            className="lg:col-span-7 w-full relative"
           >
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden flex flex-col">
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl blur opacity-30"></div>
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden flex flex-col relative">
 
               {/* Dashboard Header */}
-              <div className="bg-slate-50/80 px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+              <div className="bg-slate-50/50 px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-                  <span className="font-mono text-xs font-bold text-slate-700 tracking-wider">PID: IND-774-291</span>
+                  <div className="flex gap-1.5 mr-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
+                  </div>
+                  <span className="font-mono text-xs font-semibold text-slate-500 tracking-wider">PID: IND-774-291</span>
                 </div>
                 <div className="flex items-center gap-4 text-xs font-semibold">
-                  <span className="text-slate-500">Region: BLR</span>
-                  <Badge variant="success" className="bg-emerald-50 text-emerald-700 border-transparent text-[10px]">VERIFIED</Badge>
+                  <span className="text-slate-400">Region: BLR</span>
+                  <div className="bg-emerald-50 text-emerald-600 border border-emerald-100 text-[10px] px-2 py-0.5 rounded-full font-bold tracking-wide">VERIFIED</div>
                 </div>
               </div>
 
