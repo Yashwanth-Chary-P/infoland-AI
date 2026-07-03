@@ -1,0 +1,65 @@
+{
+  "success": true,
+  "message": "Properties retrieved successfully",
+  "data": [
+    {
+      "_id": "6a3e5890329775f2d27261d0",
+      "property_id": "PROP-SHA-000184",
+      "source_id": "way/1187537116",
+      "source_region": "shankarpally",
+      "feature_category": "property_candidate",
+      "building": "yes",
+      "area_sq_m": 116.74,
+      "area_sq_yd": 139.62,
+      "area_sq_ft": 1256.55,
+      "perimeter_m": 44.11,
+      "centroid_lat": 17.45141472,
+      "centroid_lon": 78.13454827,
+      "bbox": {
+        "min_lon": 78.1344807,
+        "min_lat": 17.4513665,
+        "max_lon": 78.1346158,
+        "max_lat": 17.4514627
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.1344926,
+              17.4514627
+            ],
+            [
+              78.1344807,
+              17.4513841
+            ],
+            [
+              78.1346037,
+              17.4513665
+            ],
+            [
+              78.1346158,
+              17.4514456
+            ],
+            [
+              78.1344926,
+              17.4514627
+            ]
+          ]
+        ]
+      },
+      "__v": 0,
+      "createdAt": "2026-06-26T10:46:40.427Z",
+      "updatedAt": "2026-06-26T10:46:40.427Z"
+    }
+  ],
+  "pagination": {
+    "total": 1633,
+    "page": 1,
+    "limit": 1,
+    "totalPages": 1633,
+    "hasNextPage": true,
+    "hasPrevPage": false
+  },
+  "timestamp": "2026-07-03T15:55:39.157Z"
+}

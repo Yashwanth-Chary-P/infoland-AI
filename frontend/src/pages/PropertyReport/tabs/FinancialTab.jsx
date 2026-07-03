@@ -3,6 +3,8 @@ import { Landmark, TrendingDown, IndianRupee } from 'lucide-react';
 import Badge from '../../../components/common/Badge';
 
 const FinancialTab = ({ plot }) => {
+  const loans = plot.loans || [];
+  
   return (
     <div className="p-8">
       <h2 className="text-lg font-bold text-slate-900 mb-6">Financial Exposure</h2>
@@ -13,7 +15,7 @@ const FinancialTab = ({ plot }) => {
             <Landmark className="w-4 h-4" />
             <span className="text-xs font-bold uppercase tracking-widest">Active Mortgages</span>
           </div>
-          <p className="text-2xl font-black text-slate-900 tracking-tighter">1</p>
+          <p className="text-2xl font-black text-slate-900 tracking-tighter">{plot.healthSummary?.active_loan_count || 0}</p>
         </div>
         <div className="bg-slate-50 border border-slate-200 rounded-lg p-5">
           <div className="flex items-center gap-2 text-slate-500 mb-2">
@@ -21,7 +23,7 @@ const FinancialTab = ({ plot }) => {
             <span className="text-xs font-bold uppercase tracking-widest">Pending Taxes</span>
           </div>
           <p className="text-2xl font-black text-slate-900 tracking-tighter flex items-center gap-1">
-            <IndianRupee className="w-5 h-5" /> 45,000
+            {plot.healthSummary?.pending_tax_count || 0}
           </p>
         </div>
         <div className="bg-slate-50 border border-slate-200 rounded-lg p-5">
@@ -30,7 +32,7 @@ const FinancialTab = ({ plot }) => {
             <span className="text-xs font-bold uppercase tracking-widest">Est. Valuation</span>
           </div>
           <p className="text-2xl font-black text-emerald-600 tracking-tighter flex items-center gap-1">
-            <IndianRupee className="w-5 h-5" /> 1.2 Cr
+            {plot.metadata?.estimated_valuation ? <><IndianRupee className="w-5 h-5" /> {plot.metadata.estimated_valuation}</> : 'N/A'}
           </p>
         </div>
       </div>
@@ -47,18 +49,26 @@ const FinancialTab = ({ plot }) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            <tr className="hover:bg-slate-50/50 transition-colors">
-              <td className="px-6 py-3.5 text-sm font-semibold text-slate-900">HDFC Bank</td>
-              <td className="px-6 py-3.5 text-sm font-mono text-slate-600">₹50,00,000</td>
-              <td className="px-6 py-3.5 text-sm font-mono text-slate-500">2020-04-10</td>
-              <td className="px-6 py-3.5"><Badge variant="warning" className="text-[10px] leading-none">ACTIVE</Badge></td>
-            </tr>
-            <tr className="hover:bg-slate-50/50 transition-colors">
-              <td className="px-6 py-3.5 text-sm font-semibold text-slate-900">SBI</td>
-              <td className="px-6 py-3.5 text-sm font-mono text-slate-600">₹15,00,000</td>
-              <td className="px-6 py-3.5 text-sm font-mono text-slate-500">2010-08-22</td>
-              <td className="px-6 py-3.5"><Badge variant="success" className="text-[10px] leading-none">CLEARED</Badge></td>
-            </tr>
+            {loans.length === 0 ? (
+              <tr>
+                <td colSpan="4" className="px-6 py-8 text-center text-slate-500">No loan history found.</td>
+              </tr>
+            ) : (
+              loans.map((loan, i) => (
+                <tr key={i} className="hover:bg-slate-50/50 transition-colors">
+                  <td className="px-6 py-3.5 text-sm font-semibold text-slate-900 capitalize">{loan.lender_name || loan.bank_name || 'Unknown Institution'}</td>
+                  <td className="px-6 py-3.5 text-sm font-mono text-slate-600">
+                    {loan.outstanding_amount != null ? `₹${loan.outstanding_amount.toLocaleString()}` : 'N/A'}
+                  </td>
+                  <td className="px-6 py-3.5 text-sm font-mono text-slate-500">{loan.loan_date || '-'}</td>
+                  <td className="px-6 py-3.5">
+                    {loan.status?.toLowerCase() === 'active' && <Badge variant="warning" className="text-[10px] leading-none">ACTIVE</Badge>}
+                    {loan.status?.toLowerCase() === 'closed' && <Badge variant="success" className="text-[10px] leading-none">CLEARED</Badge>}
+                    {!['active', 'closed'].includes(loan.status?.toLowerCase()) && <Badge variant="secondary" className="text-[10px] leading-none uppercase">{loan.status || 'UNKNOWN'}</Badge>}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

@@ -2,8 +2,13 @@ import React from 'react';
 import { AlertTriangle, CheckCircle2, ShieldAlert, FileWarning } from 'lucide-react';
 
 const ExecutiveSummary = ({ plot }) => {
-  const riskScore = plot.risk_score || 82;
-  const isHighRisk = riskScore > 80;
+  const riskScore = plot.healthSummary?.overall_score ?? 'N/A';
+  const isHighRisk = riskScore !== 'N/A' && riskScore >= 80;
+  
+  const hasLoans = plot.healthSummary?.active_loan_count > 0;
+  const hasDisputes = plot.healthSummary?.court_dispute_count > 0;
+  const hasMissingDocs = plot.healthSummary?.missing_document_count > 0;
+  const isClear = !hasLoans && !hasDisputes && !hasMissingDocs;
 
   return (
     <div className="grid lg:grid-cols-3 gap-6">
@@ -13,10 +18,10 @@ const ExecutiveSummary = ({ plot }) => {
         <div className="absolute top-0 w-full h-1 bg-emerald-500"></div>
         <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Overall Score</h3>
         <div className="flex items-end gap-2 mb-2">
-          <span className={`text-6xl font-black tracking-tighter ${riskScore < 50 ? 'text-emerald-500' : riskScore < 80 ? 'text-amber-500' : 'text-red-500'}`}>
+          <span className={`text-6xl font-black tracking-tighter ${riskScore === 'N/A' ? 'text-slate-400' : riskScore < 50 ? 'text-emerald-500' : riskScore < 80 ? 'text-amber-500' : 'text-red-500'}`}>
             {riskScore}
           </span>
-          <span className="text-xl text-slate-400 font-bold mb-2">/ 100</span>
+          <span className="text-xl text-slate-400 font-bold mb-2">{riskScore !== 'N/A' ? '/ 100' : ''}</span>
         </div>
         <p className="text-sm font-semibold text-slate-700">Verification Recommended</p>
       </div>
@@ -28,10 +33,12 @@ const ExecutiveSummary = ({ plot }) => {
             <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Recommendation
           </h3>
           <p className="text-sm text-slate-700 leading-relaxed font-medium mb-4">
-            The property holds a strong verification score. Ownership chain is unbroken for the last 30 years. Financial records show one active loan which requires a No Objection Certificate (NOC) prior to transfer.
+            {isClear 
+              ? 'The property holds a strong verification score based on available data. No active loans, disputes, or missing documents identified.'
+              : 'The property has pending verification items that need to be addressed. See Key Risks for details.'}
           </p>
-          <div className="bg-blue-50 text-blue-800 text-xs font-semibold px-3 py-2 rounded border border-blue-100 inline-block">
-            Clear for provisional acquisition.
+          <div className={`${isClear ? 'bg-emerald-50 text-emerald-800 border-emerald-100' : 'bg-amber-50 text-amber-800 border-amber-100'} text-xs font-semibold px-3 py-2 rounded border inline-block`}>
+            {isClear ? 'Clear for provisional acquisition.' : 'Further investigation required.'}
           </div>
         </div>
         
@@ -42,18 +49,28 @@ const ExecutiveSummary = ({ plot }) => {
             <AlertTriangle className="w-4 h-4 text-amber-500" /> Key Risks
           </h3>
           <ul className="space-y-3">
-            <li className="flex items-start gap-2">
-              <ShieldAlert className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
-              <span className="text-xs font-medium text-slate-700">Active mortgage with HDFC Bank. Requires clearance.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <FileWarning className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
-              <span className="text-xs font-medium text-slate-700">Recent mutation record (2023) pending final approval.</span>
-            </li>
-            {isHighRisk && (
+            {isClear && (
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
+                <span className="text-xs font-medium text-slate-700">No active risks identified.</span>
+              </li>
+            )}
+            {hasLoans && (
+              <li className="flex items-start gap-2">
+                <ShieldAlert className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
+                <span className="text-xs font-medium text-slate-700">Active mortgage/loans found. Requires clearance.</span>
+              </li>
+            )}
+            {hasMissingDocs && (
+              <li className="flex items-start gap-2">
+                <FileWarning className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
+                <span className="text-xs font-medium text-slate-700">{plot.healthSummary.missing_document_count} missing documents required for verification.</span>
+              </li>
+            )}
+            {hasDisputes && (
               <li className="flex items-start gap-2">
                 <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
-                <span className="text-xs font-medium text-slate-700 text-red-600">High Risk: Ongoing boundary dispute in civil court.</span>
+                <span className="text-xs font-medium text-slate-700 text-red-600">High Risk: {plot.healthSummary.court_dispute_count} active court dispute(s) detected.</span>
               </li>
             )}
           </ul>

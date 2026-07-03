@@ -19,8 +19,24 @@ class PropertyService {
       propertyRepository.countProperties(masterFilter, profileFilter)
     ]);
 
+    // Fetch related profile and health summary for list view to avoid N+1 queries in frontend
+    const propertyIds = properties.map(p => p.property_id);
+    const [profiles, healthSummaries] = await Promise.all([
+      propertyRepository.findPropertyProfileByIds ? propertyRepository.findPropertyProfileByIds(propertyIds) : Promise.resolve([]),
+      propertyRepository.findPropertyHealthSummaryByIds ? propertyRepository.findPropertyHealthSummaryByIds(propertyIds) : Promise.resolve([])
+    ]);
+
+    const profileMap = profiles.reduce((acc, p) => ({ ...acc, [p.property_id]: p }), {});
+    const healthMap = healthSummaries.reduce((acc, h) => ({ ...acc, [h.property_id]: h }), {});
+
+    const enrichedProperties = properties.map(p => ({
+      ...p,
+      profile: profileMap[p.property_id] || null,
+      healthSummary: healthMap[p.property_id] || null
+    }));
+
     return {
-      data: properties,
+      data: enrichedProperties,
       pagination: getPaginationMeta(total, page, limit)
     };
   }
@@ -73,8 +89,23 @@ class PropertyService {
       propertyRepository.countSearchProperties(q)
     ]);
 
+    const propertyIds = properties.map(p => p.property_id);
+    const [profiles, healthSummaries] = await Promise.all([
+      propertyRepository.findPropertyProfileByIds ? propertyRepository.findPropertyProfileByIds(propertyIds) : Promise.resolve([]),
+      propertyRepository.findPropertyHealthSummaryByIds ? propertyRepository.findPropertyHealthSummaryByIds(propertyIds) : Promise.resolve([])
+    ]);
+
+    const profileMap = profiles.reduce((acc, p) => ({ ...acc, [p.property_id]: p }), {});
+    const healthMap = healthSummaries.reduce((acc, h) => ({ ...acc, [h.property_id]: h }), {});
+
+    const enrichedProperties = properties.map(p => ({
+      ...p,
+      profile: profileMap[p.property_id] || null,
+      healthSummary: healthMap[p.property_id] || null
+    }));
+
     return {
-      data: properties,
+      data: enrichedProperties,
       pagination: getPaginationMeta(total, page, limit)
     };
   }

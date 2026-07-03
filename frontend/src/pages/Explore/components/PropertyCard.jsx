@@ -7,13 +7,14 @@ import Button from '../../../components/common/Button';
 const PropertyCard = ({ plot, isSelected, onSelect, onHover, onLeave }) => {
   const propertyId = plot.property_id || plot.id || plot._id;
   
-  // Mock data derivation for UI (as instructed, fallback to mock if API lacks these specific fields, but ideally driven by API)
-  const status = plot.status || (plot.profile?.verification_workflow) || 'PENDING';
-  const riskScore = plot.risk_score || 82;
-  const ownershipConfidence = plot.ownership_confidence || '95%';
-  const missingDocs = plot.missing_documents || 1;
-  const region = plot.region || 'BLR';
-  const type = plot.property_type || 'Commercial';
+  const status = plot.profile?.verification_workflow || 'PENDING';
+  const riskScore = plot.healthSummary?.overall_score || 'N/A';
+  const ownershipConfidence = plot.metadata?.data_quality_score ? `${plot.metadata.data_quality_score}%` : 'N/A';
+  const missingDocs = plot.healthSummary?.missing_document_count || 0;
+  const activeLoans = plot.healthSummary?.active_loan_count || 0;
+  const courtDisputes = plot.healthSummary?.court_dispute_count || 0;
+  const region = plot.source_region || 'Unknown';
+  const type = plot.profile?.property_class ? plot.profile.property_class.replace(/_/g, ' ') : 'Unknown';
 
   return (
     <div 
@@ -37,7 +38,7 @@ const PropertyCard = ({ plot, isSelected, onSelect, onHover, onLeave }) => {
         </div>
         <div className="text-right flex flex-col items-end">
           <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Risk Score</span>
-          <span className={`text-xl font-extrabold tracking-tighter leading-none ${riskScore < 50 ? 'text-emerald-600' : riskScore < 80 ? 'text-amber-500' : 'text-red-500'}`}>
+          <span className={`text-xl font-extrabold tracking-tighter leading-none ${riskScore === 'N/A' ? 'text-slate-400' : riskScore < 50 ? 'text-emerald-600' : riskScore < 80 ? 'text-amber-500' : 'text-red-500'}`}>
             {riskScore}
           </span>
         </div>
@@ -61,15 +62,15 @@ const PropertyCard = ({ plot, isSelected, onSelect, onHover, onLeave }) => {
         <div>
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Disputes</span>
           <div className="flex items-center gap-1.5 text-sm font-semibold text-slate-700">
-            <Landmark className="w-4 h-4 text-emerald-500" />
-            Clear
+            <Landmark className={`w-4 h-4 ${courtDisputes > 0 ? 'text-red-500' : 'text-emerald-500'}`} />
+            {courtDisputes > 0 ? `${courtDisputes} Active` : 'Clear'}
           </div>
         </div>
         <div>
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Loans</span>
           <div className="flex items-center gap-1.5 text-sm font-semibold text-slate-700">
-            <AlertTriangle className="w-4 h-4 text-amber-500" />
-            1 Active
+            <AlertTriangle className={`w-4 h-4 ${activeLoans > 0 ? 'text-amber-500' : 'text-emerald-500'}`} />
+            {activeLoans > 0 ? `${activeLoans} Active` : 'Clear'}
           </div>
         </div>
       </div>

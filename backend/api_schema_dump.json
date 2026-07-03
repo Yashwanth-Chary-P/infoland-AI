@@ -1,0 +1,161 @@
+{
+  "success": true,
+  "message": "Property details retrieved successfully",
+  "data": {
+    "masterProperty": {
+      "_id": "6a3e5890329775f2d2725ba3",
+      "property_id": "PROP-KOK-000001",
+      "source_id": "way/356011387",
+      "source_region": "kokapet",
+      "feature_category": "property_candidate",
+      "building": "yes",
+      "area_sq_m": 143.8,
+      "area_sq_yd": 171.99,
+      "area_sq_ft": 1547.87,
+      "perimeter_m": 49.19,
+      "centroid_lat": 17.3878587,
+      "centroid_lon": 78.3342363,
+      "bbox": {
+        "min_lon": 78.3341598,
+        "min_lat": 17.3878061,
+        "max_lon": 78.3343128,
+        "max_lat": 17.3879113
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.334173,
+              17.3879113
+            ],
+            [
+              78.3341598,
+              17.3878258
+            ],
+            [
+              78.3342996,
+              17.3878061
+            ],
+            [
+              78.3343128,
+              17.3878916
+            ],
+            [
+              78.334173,
+              17.3879113
+            ]
+          ]
+        ]
+      },
+      "__v": 0,
+      "createdAt": "2026-06-26T10:46:40.406Z",
+      "updatedAt": "2026-06-26T10:46:40.406Z"
+    },
+    "profile": {
+      "_id": "6a3e5891329775f2d2726211",
+      "property_id": "PROP-KOK-000001",
+      "area_segment": "medium",
+      "property_class": "residential_plot",
+      "future_risk_tier": "low",
+      "sale_status": "not_for_sale",
+      "verification_workflow": "complete_property_verification",
+      "location_score": 84,
+      "__v": 0,
+      "createdAt": "2026-06-26T10:46:41.997Z",
+      "updatedAt": "2026-06-26T10:46:41.997Z"
+    },
+    "metadata": {
+      "_id": "6a3e5894329775f2d2728263",
+      "property_id": "PROP-KOK-000001",
+      "property_age_years": 0,
+      "construction_status": "vacant_land",
+      "land_use": "residential",
+      "zone_type": "urban",
+      "development_stage": "developed",
+      "__v": 0,
+      "createdAt": "2026-06-26T10:46:44.223Z",
+      "updatedAt": "2026-06-26T10:46:44.223Z"
+    },
+    "healthSummary": {
+      "_id": "6a3e5895329775f2d2728f29",
+      "property_id": "PROP-KOK-000001",
+      "document_count": 13,
+      "missing_document_count": 5,
+      "active_loan_count": 0,
+      "court_dispute_count": 0,
+      "pending_tax_count": 0,
+      "__v": 0,
+      "createdAt": "2026-06-26T10:46:45.165Z",
+      "updatedAt": "2026-06-26T10:46:45.165Z"
+    },
+    "locationScore": {
+      "_id": "6a3e5cd72c9e1614dc709e99",
+      "property_id": "PROP-KOK-000001",
+      "distance_to_nearest_commercial_km": 0.138,
+      "distance_to_nearest_hospital_km": 0.391,
+      "distance_to_nearest_park_km": 0.195,
+      "distance_to_nearest_school_km": 0.332,
+      "location_score": 84,
+      "nearby_commercial_count": 10,
+      "nearby_hospital_count": 5,
+      "nearby_park_count": 9,
+      "nearby_school_count": 9,
+      "__v": 0,
+      "createdAt": "2026-06-26T11:04:55.511Z",
+      "updatedAt": "2026-06-26T11:04:55.511Z"
+    },
+    "propertyTimeline": {
+      "_id": "6a3e5894329775f2d27288c6",
+      "property_id": "PROP-KOK-000001",
+      "events": [
+        {
+          "event_type": "ownership_transfer",
+          "event_date": "2012-07-11"
+        },
+        {
+          "event_type": "registration",
+          "event_date": "2012-07-11"
+        },
+        {
+          "event_type": "ownership_transfer",
+          "event_date": "2015-08-09"
+        },
+        {
+          "event_type": "mutation_updated",
+          "event_date": "2015-09-23"
+        },
+        {
+          "event_type": "tax_paid",
+          "event_date": "2026-03-20"
+        }
+      ],
+      "__v": 0,
+      "createdAt": "2026-06-26T10:46:44.671Z",
+      "updatedAt": "2026-06-26T10:46:44.671Z"
+    },
+    "propertyRegistry": {
+      "_id": "6a3e5893329775f2d2727c00",
+      "property_id": "PROP-KOK-000001",
+      "owner_id": "OWN-KOK-000001",
+      "__v": 0,
+      "createdAt": "2026-06-26T10:46:43.716Z",
+      "updatedAt": "2026-06-26T10:46:43.716Z"
+    },
+    "currentOwner": {
+      "_id": "6a3e5892329775f2d2726874",
+      "owner_id": "OWN-KOK-000001",
+      "property_id": "PROP-KOK-000001",
+      "owner_type": "individual",
+      "full_name": "Vikram Menon",
+      "phone": "+91-9100007919",
+      "email": "vikram.menon.1@infoland.example",
+      "source_region": "kokapet",
+      "__v": 0,
+      "createdAt": "2026-06-26T10:46:42.428Z",
+      "updatedAt": "2026-06-26T10:46:42.428Z"
+    }
+  },
+  "pagination": null,
+  "timestamp": "2026-07-03T15:55:14.599Z"
+}

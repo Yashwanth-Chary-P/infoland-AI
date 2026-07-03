@@ -14,7 +14,7 @@ const OverviewTab = ({ plot }) => {
             <Box className="w-4 h-4" />
             <span className="text-xs font-bold uppercase tracking-widest">Type</span>
           </div>
-          <p className="text-sm font-semibold text-slate-900">{plot.property_type || 'Commercial Land'}</p>
+          <p className="text-sm font-semibold text-slate-900 capitalize">{plot.profile?.property_class ? plot.profile.property_class.replace(/_/g, ' ') : 'N/A'}</p>
         </div>
 
         <div className="bg-slate-50 border border-slate-200 rounded-lg p-5">
@@ -22,7 +22,7 @@ const OverviewTab = ({ plot }) => {
             <Ruler className="w-4 h-4" />
             <span className="text-xs font-bold uppercase tracking-widest">Area</span>
           </div>
-          <p className="text-sm font-semibold text-slate-900">{plot.area || '2,400 Sq. Ft.'}</p>
+          <p className="text-sm font-semibold text-slate-900">{plot.area_sq_ft ? `${plot.area_sq_ft} Sq. Ft.` : 'N/A'}</p>
         </div>
 
         <div className="bg-slate-50 border border-slate-200 rounded-lg p-5">
@@ -30,7 +30,7 @@ const OverviewTab = ({ plot }) => {
             <CheckCircle2 className="w-4 h-4" />
             <span className="text-xs font-bold uppercase tracking-widest">Zoning</span>
           </div>
-          <p className="text-sm font-semibold text-slate-900">{plot.zoning || 'Mixed-Use Residential'}</p>
+          <p className="text-sm font-semibold text-slate-900 capitalize">{plot.metadata?.zone_type || 'N/A'}</p>
         </div>
 
         <div className="bg-slate-50 border border-slate-200 rounded-lg p-5">
@@ -39,7 +39,7 @@ const OverviewTab = ({ plot }) => {
             <span className="text-xs font-bold uppercase tracking-widest">Coordinates</span>
           </div>
           <p className="text-xs font-mono font-semibold text-slate-900">
-            {plot.coordinates ? `${plot.coordinates[1].toFixed(4)}, ${plot.coordinates[0].toFixed(4)}` : 'N/A'}
+            {plot.centroid_lat && plot.centroid_lon ? `${plot.centroid_lat.toFixed(4)}, ${plot.centroid_lon.toFixed(4)}` : 'N/A'}
           </p>
         </div>
 
@@ -47,9 +47,9 @@ const OverviewTab = ({ plot }) => {
 
       <div className="mt-8 border-t border-slate-100 pt-8">
         <h3 className="text-sm font-bold text-slate-900 mb-4">Location Details</h3>
-        <p className="text-sm text-slate-600 max-w-2xl leading-relaxed font-medium">
-          Located in {plot.region || 'the central district'}, this property is classified for {plot.property_type || 'Commercial'} use.
-          The surrounding infrastructure has seen significant development over the last 5 years, improving its overall valuation and location score.
+        <p className="text-sm text-slate-600 max-w-2xl leading-relaxed font-medium capitalize">
+          Located in {plot.source_region || 'Unknown Region'}, this property is classified for {plot.metadata?.land_use || 'Unknown'} use.
+          The property is considered {plot.metadata?.development_stage || 'Unknown'}.
         </p>
       </div>
     </div>

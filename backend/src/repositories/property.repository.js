@@ -56,6 +56,14 @@ class PropertyRepository {
     return await PropertyHealthSummary.findOne({ property_id: propertyId }).lean();
   }
 
+  async findPropertyProfileByIds(propertyIds) {
+    return await PropertyProfile.find({ property_id: { $in: propertyIds } }).lean();
+  }
+
+  async findPropertyHealthSummaryByIds(propertyIds) {
+    return await PropertyHealthSummary.find({ property_id: { $in: propertyIds } }).lean();
+  }
+
   async findPropertyTimelineById(propertyId) {
     return await PropertyTimeline.findOne({ property_id: propertyId }).lean();
   }

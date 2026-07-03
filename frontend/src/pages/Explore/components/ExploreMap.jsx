@@ -153,10 +153,10 @@ const ViewportClustering = ({ plots, hoveredPropertyId, selectedPropertyId, onSe
         const icon = createCustomIcon(colors.markerColor, scale);
         const centroid = extractCentroid(plot);
         
-        const status = (plot.status || plot.profile?.verification_workflow || 'PENDING').replace(/_/g, ' ');
-        const riskScore = plot.risk_score || plot.healthSummary?.overall_score || 82;
+        const status = (plot.profile?.verification_workflow || 'PENDING').replace(/_/g, ' ');
+        const riskScore = plot.healthSummary?.overall_score || 'N/A';
         const verificationStatus = plot.profile?.verification_workflow === 'complete_property_verification' ? 'VERIFIED' : 'PENDING';
-        const region = plot.region || plot.source_region || 'Unknown';
+        const region = plot.source_region || 'Unknown';
 
         return (
           <Marker 
@@ -189,7 +189,7 @@ const ViewportClustering = ({ plots, hoveredPropertyId, selectedPropertyId, onSe
                   </div>
                   <div className="text-right">
                     <span className="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">Risk</span>
-                    <span className={`text-lg font-extrabold leading-none ${riskScore < 50 ? 'text-emerald-600' : riskScore < 80 ? 'text-amber-500' : 'text-red-500'}`}>{riskScore}</span>
+                    <span className={`text-lg font-extrabold leading-none ${riskScore === 'N/A' ? 'text-slate-400' : riskScore < 50 ? 'text-emerald-600' : riskScore < 80 ? 'text-amber-500' : 'text-red-500'}`}>{riskScore}</span>
                   </div>
                 </div>
                 <Link to={`/property/${id}`}>

@@ -90,8 +90,8 @@ const PropertyReport = () => {
               <div>
                 <div className="flex items-center gap-3 mb-1">
                   <h1 className="text-2xl font-bold text-slate-900 tracking-tight">PID: {plot.property_id || plot._id}</h1>
-                  <Badge variant="success" className="bg-emerald-50 text-emerald-700 border-emerald-200">
-                    {plot.profile?.verification_workflow?.replace(/_/g, ' ') || 'VERIFIED'}
+                  <Badge variant="success" className="bg-emerald-50 text-emerald-700 border-emerald-200 uppercase">
+                    {plot.profile?.verification_workflow?.replace(/_/g, ' ') || 'PENDING'}
                   </Badge>
                 </div>
                 <p className="text-xs font-medium text-slate-500">Last updated: {new Date().toLocaleDateString()}</p>

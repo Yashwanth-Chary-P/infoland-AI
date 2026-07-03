@@ -3,13 +3,14 @@ import { Scale, CheckCircle2 } from 'lucide-react';
 import Badge from '../../../components/common/Badge';
 
 const CourtCasesTab = ({ plot }) => {
-  const isHighRisk = (plot.risk_score || 82) > 80;
+  const courtCases = plot.courtDisputes || [];
+  const hasDisputes = courtCases.length > 0;
 
   return (
     <div className="p-8">
       <h2 className="text-lg font-bold text-slate-900 mb-6">Legal & Court Disputes</h2>
       
-      {isHighRisk ? (
+      {hasDisputes ? (
         <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -22,13 +23,19 @@ const CourtCasesTab = ({ plot }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              <tr className="hover:bg-slate-50/50 transition-colors">
-                <td className="px-6 py-3.5 text-sm font-mono text-slate-900 font-bold">OS/1204/2023</td>
-                <td className="px-6 py-3.5 text-sm font-medium text-slate-600">City Civil Court</td>
-                <td className="px-6 py-3.5 text-sm text-slate-600">Boundary Dispute</td>
-                <td className="px-6 py-3.5 text-sm font-mono text-slate-500">2023-09-14</td>
-                <td className="px-6 py-3.5"><Badge variant="error" className="text-[10px] leading-none">ONGOING</Badge></td>
-              </tr>
+              {courtCases.map((dispute, i) => (
+                <tr key={i} className="hover:bg-slate-50/50 transition-colors">
+                  <td className="px-6 py-3.5 text-sm font-mono text-slate-900 font-bold">{dispute.dispute_id || 'UNKNOWN'}</td>
+                  <td className="px-6 py-3.5 text-sm font-medium text-slate-600 capitalize">{dispute.court_name || 'City Civil Court'}</td>
+                  <td className="px-6 py-3.5 text-sm text-slate-600 capitalize">{dispute.case_type?.replace(/_/g, ' ') || 'General Dispute'}</td>
+                  <td className="px-6 py-3.5 text-sm font-mono text-slate-500">{dispute.filing_date || '-'}</td>
+                  <td className="px-6 py-3.5">
+                    {dispute.status?.toLowerCase() === 'ongoing' && <Badge variant="error" className="text-[10px] leading-none">ONGOING</Badge>}
+                    {dispute.status?.toLowerCase() === 'resolved' && <Badge variant="success" className="text-[10px] leading-none">RESOLVED</Badge>}
+                    {!['ongoing', 'resolved'].includes(dispute.status?.toLowerCase()) && <Badge variant="warning" className="text-[10px] leading-none uppercase">{dispute.status || 'UNKNOWN'}</Badge>}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

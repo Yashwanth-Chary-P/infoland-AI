@@ -31,8 +31,8 @@ export function isPointInsidePolygon(clickLat, clickLng, geoJsonRing) {
  * Determines colors for markers and polygons based on property status/risk
  */
 export const getPropertyColors = (plot, isSelected, isHovered) => {
-  const status = (plot?.status || plot?.profile?.verification_workflow || 'PENDING').toUpperCase();
-  const riskScore = plot?.risk_score || plot?.healthSummary?.overall_score || 0;
+  const status = (plot?.profile?.verification_workflow || 'PENDING').toUpperCase();
+  const riskScore = plot?.healthSummary?.overall_score || 0;
   
   // Default Enterprise colors
   let markerColor = '#3b82f6'; // Blue
