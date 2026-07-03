@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { fetchDetailedPlots, loadMoreDetailedPlots, setExploreUI } from '../../features/detailedPlots/detailedPlotsSlice';
 import ExploreSidebar from './components/ExploreSidebar';
 import ExploreMap from './components/ExploreMap';
@@ -66,39 +67,45 @@ const Explore = () => {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-4rem)] bg-slate-50 overflow-hidden py-6">
-      <div className="max-w-[1800px] mx-auto w-full px-6 xl:px-8 2xl:px-10 h-full">
-        <div className="flex h-full border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
-        {/* Left Sidebar: List & Filters */}
-        <div className="w-full md:w-[450px] lg:w-[500px] flex-shrink-0 border-r border-slate-200 bg-slate-50 flex flex-col h-full z-10 shadow-sm relative">
-          <ExploreSidebar
-            plots={plots}
-            loading={loading}
-            isFetchingPage={isFetchingPage}
-            pagination={pagination}
-            searchParams={searchParams}
-            onSearch={handleSearch}
-            onFilterChange={handleFilterChange}
-            onLoadMore={handleLoadMore}
-            selectedPropertyId={selectedPropertyId}
-            onSelectProperty={(id) => dispatch(setExploreUI({ selectedId: id }))}
-            onHoverProperty={(id) => dispatch(setExploreUI({ hoveredId: id }))}
-          />
-        </div>
+    <>
+      <Helmet>
+        <title>Explore Properties | InfoLand AI</title>
+        <meta name="description" content="Explore property datasets, view parcels on the map, and filter real estate records." />
+      </Helmet>
+      <div className="w-full h-[calc(100vh-4rem)] bg-slate-50 overflow-hidden py-6">
+        <div className="max-w-[1800px] mx-auto w-full px-6 xl:px-8 2xl:px-10 h-full">
+          <div className="flex h-full border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
+          {/* Left Sidebar: List & Filters */}
+          <div className="w-full md:w-[450px] lg:w-[500px] flex-shrink-0 border-r border-slate-200 bg-slate-50 flex flex-col h-full z-10 shadow-sm relative">
+            <ExploreSidebar
+              plots={plots}
+              loading={loading}
+              isFetchingPage={isFetchingPage}
+              pagination={pagination}
+              searchParams={searchParams}
+              onSearch={handleSearch}
+              onFilterChange={handleFilterChange}
+              onLoadMore={handleLoadMore}
+              selectedPropertyId={selectedPropertyId}
+              onSelectProperty={(id) => dispatch(setExploreUI({ selectedId: id }))}
+              onHoverProperty={(id) => dispatch(setExploreUI({ hoveredId: id }))}
+            />
+          </div>
 
-        {/* Right Workspace: Interactive Map */}
-        <div className="flex-1 relative h-full bg-slate-100 z-0 hidden md:block">
-          <ExploreMap
-            plots={plots}
-            selectedPropertyId={selectedPropertyId}
-            hoveredPropertyId={hoveredPropertyId}
-            onSelectProperty={(id) => dispatch(setExploreUI({ selectedId: id }))}
-            selectedRegion={searchParams.get('region')}
-          />
-        </div>
+          {/* Right Workspace: Interactive Map */}
+          <div className="flex-1 relative h-full bg-slate-100 z-0 hidden md:block">
+            <ExploreMap
+              plots={plots}
+              selectedPropertyId={selectedPropertyId}
+              hoveredPropertyId={hoveredPropertyId}
+              onSelectProperty={(id) => dispatch(setExploreUI({ selectedId: id }))}
+              selectedRegion={searchParams.get('region')}
+            />
+          </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

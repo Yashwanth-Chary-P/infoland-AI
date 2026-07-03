@@ -1,6 +1,8 @@
 import React from 'react';
 import { FileText, Download, CheckCircle2, AlertCircle } from 'lucide-react';
 import Badge from '../../../components/common/Badge';
+import EmptyState from '../../../components/common/EmptyState.jsx';
+import { notify as toast } from '../../../utils/toast';
 
 const DocumentsTab = ({ plot }) => {
   const documents = plot.documents || [];
@@ -40,7 +42,13 @@ const DocumentsTab = ({ plot }) => {
           <tbody className="divide-y divide-slate-100 bg-white">
             {documents.length === 0 ? (
               <tr>
-                <td colSpan="5" className="px-6 py-12 text-center text-slate-400 text-sm font-medium italic">No records available.</td>
+                <td colSpan="5" className="px-6 py-12">
+                  <EmptyState 
+                    icon={FileText}
+                    title="No document data available."
+                    description="There are no documents found for this property."
+                  />
+                </td>
               </tr>
             ) : (
               documents.map((doc, i) => (
@@ -59,7 +67,13 @@ const DocumentsTab = ({ plot }) => {
                     {doc.status === 'missing' && <Badge variant="error" className="text-[10px] leading-none px-2 py-0.5 shadow-sm">MISSING</Badge>}
                   </td>
                   <td className="px-6 py-3.5 text-right">
-                    <button className="text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:cursor-not-allowed" disabled={doc.status !== 'verified'}>
+                    <button 
+                      aria-label={`Download ${doc.document_type?.replace(/_/g, ' ')}`}
+                      title="Download"
+                      onClick={() => toast.info('Document download coming soon')}
+                      className="text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:cursor-not-allowed" 
+                      disabled={doc.status !== 'verified'}
+                    >
                       <Download className="w-4 h-4 inline-block" />
                     </button>
                   </td>

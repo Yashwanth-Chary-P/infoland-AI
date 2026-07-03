@@ -82,6 +82,7 @@ const Navbar = () => {
                   <img
                     src={avatarImg}
                     alt="User avatar"
+                    loading="lazy"
                     className={`w-8 h-8 rounded-full ring-2 ring-blue-500 transition-transform ${
                       isDropdownOpen ? "scale-105" : ""
                     }`}

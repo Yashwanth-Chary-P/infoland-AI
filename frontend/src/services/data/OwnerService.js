@@ -6,7 +6,6 @@ export const getOwnerById = async (ownerId) => {
   // In Module 1, fetchPropertyDetails pulls currentOwner directly from the property details payload anyway.
   // So this function might not be used heavily, but we'll try fetching owners if an endpoint exists, 
   // otherwise return null as requested for unavailable endpoints.
-  console.warn('getOwnerById not directly supported without propertyId in current backend API.');
   return null;
 };
 

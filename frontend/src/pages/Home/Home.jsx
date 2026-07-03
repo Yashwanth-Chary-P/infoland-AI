@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import HeroSection from './sections/HeroSection';
 import ProblemStatement from './sections/ProblemStatement';
 import IndustryStats from './sections/IndustryStats';
@@ -12,18 +13,24 @@ import CtaSection from './sections/CtaSection';
 
 const Home = () => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <HeroSection />
-      <ProblemStatement />
-      <IndustryStats />
-      <PlatformStats />
-      <VerificationWorkflow />
-      <FeaturesGrid />
-      <DatasetPreview />
-      <TechStack />
-      <AIRoadmap />
-      <CtaSection />
-    </div>
+    <>
+      <Helmet>
+        <title>InfoLand AI | Property Verification Platform</title>
+        <meta name="description" content="AI-powered real estate verification and legal insights." />
+      </Helmet>
+      <div className="flex flex-col min-h-screen bg-slate-50 pt-16 w-full">
+        <HeroSection />
+        <ProblemStatement />
+        <IndustryStats />
+        <PlatformStats />
+        <VerificationWorkflow />
+        <FeaturesGrid />
+        <DatasetPreview />
+        <TechStack />
+        <AIRoadmap />
+        <CtaSection />
+      </div>
+    </>
   );
 };
 

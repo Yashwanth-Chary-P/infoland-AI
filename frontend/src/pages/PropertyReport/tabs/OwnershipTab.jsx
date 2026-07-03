@@ -1,5 +1,6 @@
 import React from 'react';
 import { User, History } from 'lucide-react';
+import EmptyState from '../../../components/common/EmptyState.jsx';
 
 const OwnershipTab = ({ plot }) => {
   const currentOwner = plot.currentOwner;
@@ -41,13 +42,11 @@ const OwnershipTab = ({ plot }) => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-16 bg-slate-50 border border-slate-100 rounded-xl text-center px-4">
-           <div className="w-12 h-12 bg-white border border-slate-200 shadow-sm rounded-full flex items-center justify-center mb-4">
-              <User className="w-5 h-5 text-slate-400" />
-           </div>
-           <h4 className="text-sm font-bold text-slate-900 mb-1">Ownership records not available.</h4>
-           <p className="text-xs text-slate-500 font-medium">No owner data is associated with this property record.</p>
-        </div>
+        <EmptyState 
+          icon={User}
+          title="Ownership records not available."
+          description="No owner data is associated with this property record."
+        />
       )}
     </div>
   );

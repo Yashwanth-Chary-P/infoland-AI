@@ -2,7 +2,9 @@ import React, { useEffect, useState, useMemo, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArrowLeft, Share2, Download, Sparkles } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { fetchDetailedPlotById } from '../../features/detailedPlots/detailedPlotsSlice';
+import { notify as toast } from '../../utils/toast';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import Button from '../../components/common/Button';
@@ -78,13 +80,18 @@ const PropertyReport = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-16">
+    <>
+      <Helmet>
+        <title>{plot.property_id} | Property Report | InfoLand AI</title>
+        <meta name="description" content={`View intelligence report for property ${plot.property_id}.`} />
+      </Helmet>
+      <div className="min-h-screen bg-slate-50 pt-16">
       {/* Sticky Header */}
       <div className="bg-white border-b border-slate-200 sticky top-16 z-30 shadow-sm">
         <div className="max-w-[1800px] mx-auto w-full px-6 xl:px-8 2xl:px-10 py-3">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-3">
             <div className="flex items-center gap-4">
-              <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors">
+              <button onClick={() => navigate(-1)} aria-label="Go back" className="p-2 -ml-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors">
                 <ArrowLeft className="w-5 h-5" />
               </button>
               <div>
@@ -98,10 +105,10 @@ const PropertyReport = () => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Button variant="ghost" size="sm" className="text-slate-600 bg-slate-100 border-transparent hover:bg-slate-200" onClick={() => alert('Export coming soon')}>
+              <Button variant="ghost" size="sm" className="text-slate-600 bg-slate-100 border-transparent hover:bg-slate-200" onClick={() => toast.info('Export coming soon')}>
                 <Download className="w-4 h-4 mr-2" /> Export
               </Button>
-              <Button variant="ghost" size="sm" className="text-slate-600 bg-slate-100 border-transparent hover:bg-slate-200" onClick={() => alert('Share coming soon')}>
+              <Button variant="ghost" size="sm" className="text-slate-600 bg-slate-100 border-transparent hover:bg-slate-200" onClick={() => toast.info('Share coming soon')}>
                 <Share2 className="w-4 h-4 mr-2" /> Share
               </Button>
               <Button variant="primary" size="sm" className="bg-blue-600 hover:bg-blue-700 border-transparent shadow-sm" onClick={() => setActiveTab('ai')}>
@@ -139,7 +146,8 @@ const PropertyReport = () => {
           </Suspense>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

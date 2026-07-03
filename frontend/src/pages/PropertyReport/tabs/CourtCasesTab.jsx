@@ -1,6 +1,7 @@
 import React from 'react';
 import { Scale, CheckCircle2 } from 'lucide-react';
 import Badge from '../../../components/common/Badge';
+import EmptyState from '../../../components/common/EmptyState.jsx';
 
 const CourtCasesTab = ({ plot }) => {
   const courtCases = plot.courtDisputes || [];
@@ -40,13 +41,12 @@ const CourtCasesTab = ({ plot }) => {
           </table>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-16 bg-slate-50 border border-slate-100 rounded-xl">
-          <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-3">
-            <CheckCircle2 className="w-6 h-6 text-emerald-600" />
-          </div>
-          <h3 className="text-sm font-bold text-slate-900">No Active Disputes</h3>
-          <p className="text-xs text-slate-500 mt-1">No court cases or legal holds found across verified registries.</p>
-        </div>
+        <EmptyState 
+          icon={CheckCircle2}
+          title="No Active Disputes"
+          description="No court cases or legal holds found across verified registries."
+          className="my-8"
+        />
       )}
     </div>
   );

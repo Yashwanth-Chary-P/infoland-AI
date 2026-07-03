@@ -1,5 +1,6 @@
 import React from 'react';
-import { FileText, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { FileText, CheckCircle2, AlertTriangle, History } from 'lucide-react';
+import EmptyState from '../../../components/common/EmptyState.jsx';
 
 const TimelineTab = ({ plot }) => {
   let events = [];
@@ -18,7 +19,12 @@ const TimelineTab = ({ plot }) => {
       
       <div className="relative border-l-2 border-slate-100 ml-4 space-y-8 pb-4">
         {events.length === 0 ? (
-          <div className="pl-6 text-slate-400 text-sm font-medium italic">No records available.</div>
+          <EmptyState 
+            icon={History}
+            title="No timeline events recorded."
+            description="There are no historical investigation logs available for this property."
+            className="my-8"
+          />
         ) : (
           events.map((event, i) => {
             const isAlert = event.event_type?.includes('dispute') || event.event_type?.includes('default');

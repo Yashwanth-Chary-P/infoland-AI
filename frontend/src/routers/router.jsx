@@ -4,27 +4,32 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Layout
 import AppLayout from "../components/layout/AppLayout.jsx";
 
-// Public Pages
-import Home from "../pages/Home/Home.jsx";
-import About from "../pages/About.jsx";
-import Contact from "../pages/Contact.jsx";
-import Login from "../components/Login.jsx";
-import Register from "../components/Register.jsx";
-import PlotMap from "../pages/MapSelection/PlotMap.jsx";
-
-// Routing Utilities
-import PrivateRoute from "./PrivateRoute.jsx";
-import LoadingSpinner from "../components/LoadingSpinner.jsx";
-
 // Lazy-loaded Pages (Core Application)
 const Explore = React.lazy(() => import("../pages/Explore/Explore.jsx"));
 const Dashboard = React.lazy(() => import("../pages/Dashboard/Dashboard.jsx"));
 const Insights = React.lazy(() => import("../pages/Insights/Insights.jsx"));
 const PropertyReport = React.lazy(() => import("../pages/PropertyReport/PropertyReport.jsx"));
 
+// Lazy-loaded Public Pages
+const Home = React.lazy(() => import("../pages/Home/Home.jsx"));
+const About = React.lazy(() => import("../pages/About.jsx"));
+const Contact = React.lazy(() => import("../pages/Contact.jsx"));
+const Login = React.lazy(() => import("../components/Login.jsx"));
+const Register = React.lazy(() => import("../components/Register.jsx"));
+const PlotMap = React.lazy(() => import("../pages/MapSelection/PlotMap.jsx"));
+const NotFound = React.lazy(() => import("../pages/Error/NotFound.jsx"));
+const ServerError = React.lazy(() => import("../pages/Error/ServerError.jsx"));
+import RouteProgress from "../components/common/RouteProgress.jsx";
+
+// Routing Utilities
+import PrivateRoute from "./PrivateRoute.jsx";
+import LoadingSpinner from "../components/LoadingSpinner.jsx";
+
+
 const AppRouter = () => {
   return (
     <Router>
+      <RouteProgress />
       <AppLayout>
         <Suspense fallback={
           <div className="flex-1 flex justify-center items-center h-[60vh]">
@@ -76,6 +81,8 @@ const AppRouter = () => {
               
               Files are kept in the project for rollback purposes but are no longer accessible.
             */}
+            <Route path="/500" element={<ServerError />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </AppLayout>
