@@ -8,10 +8,10 @@ const CourtCasesTab = ({ plot }) => {
 
   return (
     <div className="p-8">
-      <h2 className="text-lg font-bold text-slate-900 mb-6">Legal & Court Disputes</h2>
+      <h2 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-8">Legal & Court Disputes</h2>
       
       {hasDisputes ? (
-        <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
+        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200">
@@ -29,10 +29,10 @@ const CourtCasesTab = ({ plot }) => {
                   <td className="px-6 py-3.5 text-sm font-medium text-slate-600 capitalize">{dispute.court_name || 'City Civil Court'}</td>
                   <td className="px-6 py-3.5 text-sm text-slate-600 capitalize">{dispute.case_type?.replace(/_/g, ' ') || 'General Dispute'}</td>
                   <td className="px-6 py-3.5 text-sm font-mono text-slate-500">{dispute.filing_date || '-'}</td>
-                  <td className="px-6 py-3.5">
-                    {dispute.status?.toLowerCase() === 'ongoing' && <Badge variant="error" className="text-[10px] leading-none">ONGOING</Badge>}
-                    {dispute.status?.toLowerCase() === 'resolved' && <Badge variant="success" className="text-[10px] leading-none">RESOLVED</Badge>}
-                    {!['ongoing', 'resolved'].includes(dispute.status?.toLowerCase()) && <Badge variant="warning" className="text-[10px] leading-none uppercase">{dispute.status || 'UNKNOWN'}</Badge>}
+                  <td className="px-6 py-4">
+                    {dispute.status?.toLowerCase() === 'ongoing' && <Badge variant="error" className="text-[10px] leading-none px-2 py-0.5 shadow-sm">ONGOING</Badge>}
+                    {dispute.status?.toLowerCase() === 'resolved' && <Badge variant="success" className="text-[10px] leading-none px-2 py-0.5 shadow-sm">RESOLVED</Badge>}
+                    {!['ongoing', 'resolved'].includes(dispute.status?.toLowerCase()) && <Badge variant="warning" className="text-[10px] leading-none uppercase px-2 py-0.5">{dispute.status || 'UNKNOWN'}</Badge>}
                   </td>
                 </tr>
               ))}
@@ -40,7 +40,7 @@ const CourtCasesTab = ({ plot }) => {
           </table>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-12 bg-slate-50 border border-slate-100 rounded-lg">
+        <div className="flex flex-col items-center justify-center py-16 bg-slate-50 border border-slate-100 rounded-xl">
           <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-3">
             <CheckCircle2 className="w-6 h-6 text-emerald-600" />
           </div>

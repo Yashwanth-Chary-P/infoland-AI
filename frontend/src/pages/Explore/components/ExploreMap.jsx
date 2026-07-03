@@ -177,23 +177,23 @@ const ViewportClustering = ({ plots, hoveredPropertyId, selectedPropertyId, onSe
             }}
           >
             <Popup className="premium-popup">
-              <div className="p-1 min-w-[200px]">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="font-mono text-xs font-bold text-slate-700">PID: {id}</span>
-                  <Badge variant={verificationStatus === 'VERIFIED' ? 'success' : 'warning'} className="text-[9px] px-1.5 py-0.5">{verificationStatus}</Badge>
+              <div className="p-2 min-w-[220px]">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="font-mono text-xs font-bold text-slate-900">PID: {id}</span>
+                  <Badge variant={verificationStatus === 'VERIFIED' ? 'success' : 'warning'} className="text-[10px] uppercase tracking-wider px-2 py-0.5 leading-none">{verificationStatus}</Badge>
                 </div>
-                <div className="flex justify-between items-end mb-4">
+                <div className="flex justify-between items-end mb-5">
                   <div>
-                    <span className="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">Status & Region</span>
+                    <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1.5">Status & Region</span>
                     <span className="block text-xs font-semibold text-slate-700 capitalize">{status.toLowerCase()} • {toTitleCase(region)}</span>
                   </div>
                   <div className="text-right">
-                    <span className="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">Risk</span>
-                    <span className={`text-lg font-extrabold leading-none ${riskScore === 'N/A' ? 'text-slate-400' : riskScore < 50 ? 'text-emerald-600' : riskScore < 80 ? 'text-amber-500' : 'text-red-500'}`}>{riskScore}</span>
+                    <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1.5">Risk</span>
+                    <span className={`text-xl font-black leading-none ${riskScore === 'N/A' ? 'text-slate-400' : riskScore < 50 ? 'text-emerald-600' : riskScore < 80 ? 'text-amber-500' : 'text-red-500'}`}>{riskScore}</span>
                   </div>
                 </div>
                 <Link to={`/property/${id}`}>
-                  <Button variant="primary" size="sm" className="w-full text-[10px] h-7 bg-slate-900 text-white border-transparent">
+                  <Button variant="primary" size="sm" className="w-full text-[11px] font-bold h-8 bg-slate-900 hover:bg-slate-800 text-white border-transparent shadow-sm">
                     View Intelligence Report
                   </Button>
                 </Link>

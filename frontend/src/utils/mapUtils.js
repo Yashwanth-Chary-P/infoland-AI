@@ -1,9 +1,9 @@
 import L from 'leaflet';
 
 export const REGIONS = [
-  { name: 'Kokapet', center: [17.3948, 78.3276], zoom: 14 },
-  { name: 'Mokila', center: [17.4332, 78.2036], zoom: 14 },
-  { name: 'Shankarpally', center: [17.4475, 78.1257], zoom: 14 }
+  { name: 'Kokapet', center: [17.3948, 78.3276], zoom: 15 },
+  { name: 'Mokila', center: [17.4332, 78.2036], zoom: 15 },
+  { name: 'Shankarpally', center: [17.4475, 78.1257], zoom: 15 }
 ];
 
 /* -------------------------------------------

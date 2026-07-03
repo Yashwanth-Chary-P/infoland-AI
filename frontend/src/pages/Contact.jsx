@@ -30,7 +30,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col pt-24 pb-20">
-      <div className="max-w-7xl mx-auto px-8 lg:px-10 xl:px-12 w-full flex-1">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 xl:px-10 w-full flex-1">
         
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h1 className="text-4xl font-extrabold text-slate-900 mb-4">Contact our team</h1>

@@ -81,10 +81,10 @@ const PropertyReport = () => {
     <div className="min-h-screen bg-slate-50 pt-16">
       {/* Sticky Header */}
       <div className="bg-white border-b border-slate-200 sticky top-16 z-30 shadow-sm">
-        <div className="max-w-7xl mx-auto px-8 lg:px-10 xl:px-12 py-3">
+        <div className="max-w-[1800px] mx-auto w-full px-6 xl:px-8 2xl:px-10 py-3">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-3">
             <div className="flex items-center gap-4">
-              <button onClick={() => navigate('/explore')} className="p-2 -ml-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors">
+              <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors">
                 <ArrowLeft className="w-5 h-5" />
               </button>
               <div>
@@ -130,7 +130,7 @@ const PropertyReport = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-8 lg:px-10 xl:px-12 py-6 space-y-6">
+      <div className="max-w-[1800px] mx-auto w-full px-6 xl:px-8 2xl:px-10 py-6 space-y-6">
         <ExecutiveSummary plot={plot} />
         
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm min-h-[500px]">

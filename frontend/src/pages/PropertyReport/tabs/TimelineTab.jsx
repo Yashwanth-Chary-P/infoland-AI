@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, User, FileText, Landmark } from 'lucide-react';
+import { FileText, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 const TimelineTab = ({ plot }) => {
   let events = [];
@@ -14,30 +14,39 @@ const TimelineTab = ({ plot }) => {
 
   return (
     <div className="p-8">
-      <h2 className="text-lg font-bold text-slate-900 mb-8">Investigation Audit Log</h2>
+      <h2 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-8">Investigation Audit Log</h2>
       
-      <div className="relative border-l border-slate-200 ml-3 space-y-0 pb-4">
+      <div className="relative border-l-2 border-slate-100 ml-4 space-y-8 pb-4">
         {events.length === 0 ? (
-          <div className="text-slate-500 text-sm font-medium italic">No timeline events found.</div>
+          <div className="pl-6 text-slate-400 text-sm font-medium italic">No records available.</div>
         ) : (
           events.map((event, i) => {
             const isAlert = event.event_type?.includes('dispute') || event.event_type?.includes('default');
             const isGood = event.event_type?.includes('paid') || event.event_type?.includes('verified') || event.event_type?.includes('cleared');
-            const color = isAlert ? 'bg-red-500' : isGood ? 'bg-emerald-500' : 'bg-blue-500';
+            
+            const colorClass = isAlert 
+              ? 'bg-rose-50 text-rose-500 ring-rose-50 border-rose-200' 
+              : isGood 
+                ? 'bg-emerald-50 text-emerald-500 ring-emerald-50 border-emerald-200' 
+                : 'bg-blue-50 text-blue-500 ring-blue-50 border-blue-200';
+            
+            const Icon = isAlert ? AlertTriangle : isGood ? CheckCircle2 : FileText;
             
             return (
-              <div key={i} className="relative pl-8 py-4 hover:bg-slate-50/50 transition-colors group border-b border-slate-100 last:border-b-0">
-                <div className={`absolute -left-[5px] top-6 w-2.5 h-2.5 rounded-full ring-4 ring-white ${color}`}></div>
-                
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
-                  <div className="flex items-center gap-3">
-                    <span className="font-semibold text-sm text-slate-900 capitalize">{event.event_type?.replace(/_/g, ' ')}</span>
-                  </div>
-                  <div className="text-xs font-mono font-medium text-slate-400 group-hover:text-slate-600 transition-colors">
-                    {event.event_date || '-'}
-                  </div>
+              <div key={i} className="relative pl-10 group">
+                <div className={`absolute -left-[17px] top-1 w-8 h-8 rounded-full border-2 bg-white flex items-center justify-center ring-4 transition-all ${colorClass}`}>
+                   <Icon className="w-3.5 h-3.5" />
                 </div>
-                {event.remarks && <p className="text-sm text-slate-500 font-medium mt-1">{event.remarks}</p>}
+                
+                <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-1.5">
+                    <h3 className="font-bold text-sm text-slate-900 capitalize tracking-wide">{event.event_type?.replace(/_/g, ' ')}</h3>
+                    <span className="text-[11px] font-mono font-bold text-slate-500 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">
+                      {event.event_date || 'Unknown Date'}
+                    </span>
+                  </div>
+                  {event.remarks && <p className="text-sm text-slate-500 font-medium leading-relaxed mt-2">{event.remarks}</p>}
+                </div>
               </div>
             );
           })

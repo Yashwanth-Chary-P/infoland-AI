@@ -3,7 +3,7 @@ import { AlertTriangle, CheckCircle2, ShieldAlert, FileWarning } from 'lucide-re
 
 const ExecutiveSummary = ({ plot }) => {
   const riskScore = plot.healthSummary?.overall_score ?? 'N/A';
-  const isHighRisk = riskScore !== 'N/A' && riskScore >= 80;
+  const hasScore = riskScore !== 'N/A';
   
   const hasLoans = plot.healthSummary?.active_loan_count > 0;
   const hasDisputes = plot.healthSummary?.court_dispute_count > 0;
@@ -18,12 +18,12 @@ const ExecutiveSummary = ({ plot }) => {
         <div className="absolute top-0 w-full h-1 bg-emerald-500"></div>
         <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Overall Score</h3>
         <div className="flex items-end gap-2 mb-2">
-          <span className={`text-6xl font-black tracking-tighter ${riskScore === 'N/A' ? 'text-slate-400' : riskScore < 50 ? 'text-emerald-500' : riskScore < 80 ? 'text-amber-500' : 'text-red-500'}`}>
+          <span className={`text-6xl font-black tracking-tighter ${!hasScore ? 'text-slate-400' : riskScore < 50 ? 'text-emerald-500' : riskScore < 80 ? 'text-amber-500' : 'text-red-500'}`}>
             {riskScore}
           </span>
-          <span className="text-xl text-slate-400 font-bold mb-2">{riskScore !== 'N/A' ? '/ 100' : ''}</span>
+          <span className="text-xl text-slate-400 font-bold mb-2">{hasScore ? '/ 100' : ''}</span>
         </div>
-        <p className="text-sm font-semibold text-slate-700">Verification Recommended</p>
+        <p className="text-sm font-semibold text-slate-700">{hasScore ? 'Score Available' : 'Score Pending Calculation'}</p>
       </div>
 
       {/* Recommendations & Risks */}
@@ -33,12 +33,14 @@ const ExecutiveSummary = ({ plot }) => {
             <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Recommendation
           </h3>
           <p className="text-sm text-slate-700 leading-relaxed font-medium mb-4">
-            {isClear 
-              ? 'The property holds a strong verification score based on available data. No active loans, disputes, or missing documents identified.'
-              : 'The property has pending verification items that need to be addressed. See Key Risks for details.'}
+            {!hasScore 
+              ? 'Complete AI risk evaluation is pending. Review the known risks below.'
+              : isClear 
+                ? 'The property holds a strong verification score based on available data. No active loans, disputes, or missing documents identified.'
+                : 'The property has pending verification items that need to be addressed. See Key Risks for details.'}
           </p>
-          <div className={`${isClear ? 'bg-emerald-50 text-emerald-800 border-emerald-100' : 'bg-amber-50 text-amber-800 border-amber-100'} text-xs font-semibold px-3 py-2 rounded border inline-block`}>
-            {isClear ? 'Clear for provisional acquisition.' : 'Further investigation required.'}
+          <div className={`${!hasScore ? 'bg-slate-50 text-slate-700 border-slate-200' : isClear ? 'bg-emerald-50 text-emerald-800 border-emerald-100' : 'bg-amber-50 text-amber-800 border-amber-100'} text-xs font-semibold px-3 py-2 rounded border inline-block`}>
+            {!hasScore ? 'Insufficient data for final recommendation.' : isClear ? 'Clear for provisional acquisition.' : 'Further investigation recommended.'}
           </div>
         </div>
         

@@ -66,8 +66,9 @@ const Explore = () => {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-4rem)] bg-white overflow-hidden px-6 lg:px-8 xl:px-10 py-6">
-      <div className="flex h-full border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+    <div className="w-full h-[calc(100vh-4rem)] bg-slate-50 overflow-hidden py-6">
+      <div className="max-w-[1800px] mx-auto w-full px-6 xl:px-8 2xl:px-10 h-full">
+        <div className="flex h-full border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
         {/* Left Sidebar: List & Filters */}
         <div className="w-full md:w-[450px] lg:w-[500px] flex-shrink-0 border-r border-slate-200 bg-slate-50 flex flex-col h-full z-10 shadow-sm relative">
           <ExploreSidebar
@@ -94,6 +95,7 @@ const Explore = () => {
             onSelectProperty={(id) => dispatch(setExploreUI({ selectedId: id }))}
             selectedRegion={searchParams.get('region')}
           />
+        </div>
         </div>
       </div>
     </div>
