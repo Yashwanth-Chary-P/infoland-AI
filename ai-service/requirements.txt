@@ -1,2 +1,10 @@
 fastapi
 uvicorn
+pydantic
+pydantic-settings
+python-dotenv
+orjson
+httpx
+chromadb
+sentence-transformers
+openai
