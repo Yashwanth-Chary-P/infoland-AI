@@ -8,3 +8,7 @@ httpx
 chromadb
 sentence-transformers
 openai
+langchain
+langchain-community
+langchain-openai
+langchain-anthropic

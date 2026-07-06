@@ -27,6 +27,12 @@ class Settings(BaseSettings):
     openai_api_key: str = ""
     ollama_base_url: str = "http://localhost:11434"
 
+    # LLM Provider Config
+    llm_provider: str = "ollama"
+    llm_model: str = "llama3.2"
+    llm_temperature: float = 0.0
+    anthropic_api_key: str = ""
+
     # Chunking Config
     chunk_size: int = 1000
     chunk_overlap: int = 200
