@@ -1,6 +1,7 @@
 from fastapi import APIRouter
-from app.api.v1.endpoints import health
+from app.api.v1.endpoints import health, rag
 
 api_router = APIRouter()
 
 api_router.include_router(health.router, prefix="", tags=["health"])
+api_router.include_router(rag.router, prefix="/rag", tags=["rag"])
