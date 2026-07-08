@@ -1,5 +1,5 @@
 from typing import Optional
-from chromadb.api.models.Collection import Collection
+from chromadb import Collection
 from app.core.config import settings
 from app.core.logging import logger
 from app.storage.vector_store.chroma import chroma_client
@@ -44,3 +44,10 @@ class CollectionManager:
         self.delete_collection(name)
         logger.info(f"Recreating collection: {name}")
         return self.client.create_collection(name=name)
+
+from functools import lru_cache
+
+@lru_cache()
+def get_collection_manager() -> CollectionManager:
+    """Returns a cached singleton of the CollectionManager."""
+    return CollectionManager()

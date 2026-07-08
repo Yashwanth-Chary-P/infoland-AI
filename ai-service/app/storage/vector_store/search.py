@@ -4,11 +4,14 @@ from app.services.embeddings.factory import get_embedding_provider
 from app.core.logging import logger
 
 
+from functools import lru_cache
+from app.storage.vector_store.collections import get_collection_manager
+
 class SemanticSearchService:
     """Performs semantic similarity search over collections without LLM generation."""
 
     def __init__(self):
-        self.collection_manager = CollectionManager()
+        self.collection_manager = get_collection_manager()
         self.embedding_provider = get_embedding_provider()
 
     async def search(
@@ -25,12 +28,8 @@ class SemanticSearchService:
         if not collection:
             raise ValueError(f"Collection {collection_name} does not exist.")
 
-        logger.info(f"Generating embedding for query: '{query}'")
         query_embedding = await self.embedding_provider.embed_query(query)
 
-        logger.info(
-            f"Searching collection '{collection_name}' for top {top_k} results."
-        )
         results = collection.query(
             query_embeddings=[query_embedding], n_results=top_k, where=filter_metadata
         )
@@ -50,3 +49,7 @@ class SemanticSearchService:
                 )
 
         return formatted_results
+
+@lru_cache()
+def get_search_service() -> SemanticSearchService:
+    return SemanticSearchService()

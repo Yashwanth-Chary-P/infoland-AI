@@ -6,6 +6,9 @@ from app.services.embeddings.openai import OpenAIEmbeddingProvider
 from app.services.embeddings.ollama import OllamaEmbeddingProvider
 
 
+from functools import lru_cache
+
+@lru_cache()
 def get_embedding_provider() -> EmbeddingProvider:
     """
     Factory method to retrieve the configured embedding provider.

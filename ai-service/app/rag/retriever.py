@@ -4,7 +4,7 @@ from langchain_core.retrievers import BaseRetriever
 from langchain_core.callbacks import CallbackManagerForRetrieverRun, AsyncCallbackManagerForRetrieverRun
 from langchain_core.documents import Document
 from pydantic import Field
-from app.storage.vector_store.search import SemanticSearchService
+from app.storage.vector_store.search import SemanticSearchService, get_search_service
 from app.core.logging import logger
 
 
@@ -15,12 +15,12 @@ class InfoLandRetriever(BaseRetriever):
     """
     
     collection_name: str = "properties"
-    top_k: int = 5
+    top_k: int = 3
     filter_metadata: Optional[Dict[str, Any]] = None
     
     # We instantiate the service once. Pydantic requires fields, but this is an internal service.
     # Exclude it from the Pydantic field validation.
-    search_service: SemanticSearchService = Field(default_factory=SemanticSearchService, exclude=True)
+    search_service: SemanticSearchService = Field(default_factory=get_search_service, exclude=True)
 
     def _get_relevant_documents(
         self, query: str, *, run_manager: CallbackManagerForRetrieverRun
