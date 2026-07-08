@@ -49,3 +49,23 @@ chroma_temp_test/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# VS Code workspace
+*.code-workspace
+
+# Benchmark outputs
+ai-service/benchmark_output*.txt
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+ai-service/venv/
+
+# ChromaDB local storage
+ai-service/chroma_data/
+
+# Environment variables
+ai-service/.env

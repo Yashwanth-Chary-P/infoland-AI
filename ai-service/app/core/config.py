@@ -29,9 +29,10 @@ class Settings(BaseSettings):
 
     # LLM Provider Config
     llm_provider: str = "ollama"
-    llm_model: str = "llama3.2"
+    llm_model: str = "qwen2.5:1.5b"
     llm_temperature: float = 0.0
     anthropic_api_key: str = ""
+    groq_api_key: str = ""
 
     # Chunking Config
     chunk_size: int = 1000
