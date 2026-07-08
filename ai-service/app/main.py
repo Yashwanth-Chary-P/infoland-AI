@@ -16,6 +16,24 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info(f"Starting {settings.app_name} v{settings.app_version}")
     logger.info(f"Debug Mode: {settings.debug}")
+    
+    # Warm up expensive dependencies
+    from app.services.embeddings.factory import get_embedding_provider
+    from app.storage.vector_store.collections import get_collection_manager
+    from app.rag.llm_factory import get_llm_provider
+    from app.storage.vector_store.chroma import chroma_client
+    
+    logger.info("Initializing cached singletons for warmup...")
+    get_embedding_provider()
+    get_collection_manager()
+    get_llm_provider()
+    
+    from app.storage.vector_store.search import get_search_service
+    get_search_service()
+    
+    from app.api.v1.endpoints.rag import get_rag_service
+    get_rag_service()
+    
     logger.info("Application startup complete.")
     yield
     # Shutdown
