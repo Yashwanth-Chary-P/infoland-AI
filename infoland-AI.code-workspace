@@ -1,0 +1,21 @@
+{
+    "folders": [
+        {
+            "name": "AI Service",
+            "path": "ai-service"
+        },
+        {
+            "name": "Frontend",
+            "path": "frontend"
+        },
+        {
+            "name": "Backend",
+            "path": "backend"
+        },
+        {
+            "name": "Project Root",
+            "path": "."
+        }
+    ],
+    "settings": {}
+}
