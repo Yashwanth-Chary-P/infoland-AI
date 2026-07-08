@@ -5,8 +5,10 @@ class RAGQueryRequest(BaseModel):
     """Request model for the RAG Ask endpoint."""
     query: str = Field(..., description="The user's question.")
     collection_name: Optional[str] = Field("properties", description="The ChromaDB collection to search.")
-    top_k: Optional[int] = Field(5, description="Number of context chunks to retrieve.")
+    top_k: Optional[int] = Field(3, description="Number of context chunks to retrieve.")
     filters: Optional[Dict[str, Any]] = Field(None, description="Metadata filters for retrieval.")
+    provider: Optional[str] = Field(None, description="The LLM provider to use (e.g. ollama, groq).")
+    model: Optional[str] = Field(None, description="The specific LLM model to use.")
 
 class CitationModel(BaseModel):
     """Model representing a single citation."""
