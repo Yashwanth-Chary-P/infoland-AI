@@ -36,9 +36,10 @@ class ContextBuilder:
         for doc in unique_docs:
             source = doc.metadata.get("source_file", "Unknown Source")
             prop_id = doc.metadata.get("property_id", "Unknown ID")
+            dataset = doc.metadata.get("dataset", "Unknown Dataset")
             content = doc.page_content.strip()
             
-            chunk_text = f"--- SOURCE: {source} | PROPERTY ID: {prop_id} ---\n{content}\n"
+            chunk_text = f"[Property: {prop_id} | Dataset: {dataset} | Source: {source}]\n{content}"
             
             # Simple token limit check
             estimated_tokens = len(chunk_text.split()) * 1.3
@@ -50,6 +51,6 @@ class ContextBuilder:
             current_token_estimate += estimated_tokens
 
         final_context = "\n".join(context_parts)
-        logger.info(f"Built context with {len(unique_docs)} unique chunks. Estimated tokens: {int(current_token_estimate)}")
+        logger.debug(f"BUILT CONTEXT FOR LLM:\n{final_context}")
         
         return final_context

@@ -29,7 +29,9 @@ class RAGService:
                 query=request.query,
                 collection_name=request.collection_name,
                 top_k=request.top_k,
-                filters=request.filters
+                filters=request.filters,
+                provider=request.provider,
+                model=request.model
             )
             
             processing_time = round(time.time() - start_time, 3)
