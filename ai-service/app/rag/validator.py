@@ -20,23 +20,28 @@ class ResponseValidator:
         return True
 
     @staticmethod
-    def validate_llm_response(response_text: str) -> str:
+    def validate_llm_response(response_text: str, num_retrieved_docs: int) -> str:
         """
         Validates the text returned by the LLM.
         """
+        if num_retrieved_docs == 0:
+            logger.warning("No context retrieved. Forcing fallback.")
+            return ResponseValidator.INSUFFICIENT_CONTEXT_MSG
+
         if not response_text or not response_text.strip():
             logger.error("LLM returned an empty response.")
             return ResponseValidator.INSUFFICIENT_CONTEXT_MSG
         
-        # If the LLM itself claims it doesn't have the info, we ensure it matches the standard response.
+        # If the LLM itself claims it doesn't have the info EXACTLY, we ensure it matches the standard response.
         lower_resp = response_text.strip().lower()
         fallback_msg = ResponseValidator.INSUFFICIENT_CONTEXT_MSG.lower()
         
-        if lower_resp == fallback_msg:
-            return ResponseValidator.INSUFFICIENT_CONTEXT_MSG
-            
-        # Prevent aggressively overriding valid long responses that happen to contain these keywords
-        if len(lower_resp) < 150 and ("i don't know" in lower_resp or "sufficient information" in lower_resp or "not provided in the context" in lower_resp):
+        # Strip punctuation to do an exact match check against the core fallback message
+        import string
+        lower_resp_clean = lower_resp.translate(str.maketrans('', '', string.punctuation))
+        fallback_msg_clean = fallback_msg.translate(str.maketrans('', '', string.punctuation))
+
+        if lower_resp_clean == fallback_msg_clean:
             return ResponseValidator.INSUFFICIENT_CONTEXT_MSG
             
         return response_text
