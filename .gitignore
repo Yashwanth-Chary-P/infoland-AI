@@ -69,3 +69,13 @@ ai-service/chroma_data/
 
 # Environment variables
 ai-service/.env
+ai-service/.env.local
+
+# Testing and Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Generated Benchmark/Validation Outputs
+ai-service/benchmark_results.json
+ai-service/validation_results.json
