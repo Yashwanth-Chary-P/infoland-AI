@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     llm_temperature: float = 0.0
     anthropic_api_key: str = ""
     groq_api_key: str = ""
+    
+    # Optional AI Config
+    enable_ai_explanations: bool = False
 
     # Chunking Config
     chunk_size: int = 1000

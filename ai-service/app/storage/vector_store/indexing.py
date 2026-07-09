@@ -46,9 +46,25 @@ class IndexBuilder:
             f"Loaded {len(records)} records from {dataset_name}. Starting pipeline."
         )
 
+        import uuid
         all_chunks = []
         for record in records:
-            doc_id = str(record.get("id", record.get("property_id", hash(str(record)))))
+            # Construct a robust, unique document ID based on whatever PK fields might exist
+            pk = (
+                record.get("id") or 
+                record.get("event_id") or 
+                record.get("loan_id") or 
+                record.get("tax_id") or 
+                record.get("document_id") or 
+                record.get("owner_id")
+            )
+            prop = record.get("property_id", "GLOBAL")
+            
+            if pk:
+                doc_id = f"{prop}_{pk}"
+            else:
+                doc_id = f"{prop}_{uuid.uuid4().hex[:8]}"
+                
             content = Normalizer.normalize_record(record)
             doc = Document(id=doc_id, content=content, metadata=record)
 
