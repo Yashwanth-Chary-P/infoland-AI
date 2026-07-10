@@ -214,9 +214,3 @@ Visit `http://localhost:5173` to view the application.
 ## 👥 Contributors
 
 * **Yashwanth-Chary-P** - *Project Author & Lead Architect*
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**.
