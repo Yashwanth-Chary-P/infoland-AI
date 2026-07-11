@@ -139,23 +139,7 @@ const detailedPlotsSlice = createSlice({
       })
       .addCase(fetchDetailedPlotById.fulfilled, (state, action) => {
         state.loading = false;
-        
-        // Normalize the nested API response into a flat structure expected by UI components
-        if (action.payload && action.payload.masterProperty) {
-          const apiData = action.payload;
-          state.selected = {
-            ...apiData.masterProperty,
-            profile: apiData.profile,
-            metadata: apiData.metadata,
-            healthSummary: apiData.healthSummary,
-            locationScore: apiData.locationScore,
-            timeline: apiData.propertyTimeline, // Aliased to timeline
-            propertyRegistry: apiData.propertyRegistry,
-            currentOwner: apiData.currentOwner
-          };
-        } else {
-          state.selected = action.payload;
-        }
+        state.selected = action.payload;
       })
       .addCase(fetchDetailedPlotById.rejected, (state, action) => {
         state.loading = false;

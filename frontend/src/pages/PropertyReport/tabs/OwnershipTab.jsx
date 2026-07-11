@@ -3,7 +3,7 @@ import { User, History } from 'lucide-react';
 import EmptyState from '../../../components/common/EmptyState.jsx';
 
 const OwnershipTab = ({ plot }) => {
-  const currentOwner = plot.currentOwner;
+  const currentOwner = plot.owner;
 
   return (
     <div className="p-8">

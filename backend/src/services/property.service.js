@@ -62,6 +62,15 @@ class PropertyService {
       ownerRepository.findCurrentOwnerByPropertyId(propertyId)
     ]);
 
+    if (healthSummary) {
+      let score = 100;
+      score -= (healthSummary.missing_document_count || 0) * 5;
+      score -= (healthSummary.active_loan_count || 0) * 10;
+      score -= (healthSummary.court_dispute_count || 0) * 30;
+      score -= (healthSummary.pending_tax_count || 0) * 10;
+      healthSummary.overall_score = Math.max(0, score);
+    }
+
     if (!masterProperty) {
       const error = new Error('Property not found');
       error.statusCode = 404;

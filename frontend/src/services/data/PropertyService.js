@@ -56,6 +56,7 @@ export const fetchPropertyDetails = async (propertyId) => {
       profile: data.profile,
       metadata: data.metadata,
       healthSummary: data.healthSummary,
+      locationScore: data.locationScore,
       registry: data.propertyRegistry,
       owner: data.currentOwner,
       ownershipEvents,

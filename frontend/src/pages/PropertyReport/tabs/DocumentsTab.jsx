@@ -62,8 +62,8 @@ const DocumentsTab = ({ plot }) => {
                   <td className="px-6 py-3.5 text-sm text-slate-600 font-medium capitalize">{doc.document_category || 'General'}</td>
                   <td className="px-6 py-3.5 text-sm text-slate-500 font-mono">{doc.issue_date || '-'}</td>
                   <td className="px-6 py-4">
-                    {doc.status === 'verified' && <Badge variant="success" className="text-[10px] leading-none px-2 py-0.5 shadow-sm">VERIFIED</Badge>}
-                    {doc.status === 'pending' && <Badge variant="warning" className="text-[10px] leading-none px-2 py-0.5 shadow-sm">PENDING</Badge>}
+                    {doc.status === 'available' && <Badge variant="success" className="text-[10px] leading-none px-2 py-0.5 shadow-sm">AVAILABLE</Badge>}
+                    {doc.status === 'expired' && <Badge variant="warning" className="text-[10px] leading-none px-2 py-0.5 shadow-sm">EXPIRED</Badge>}
                     {doc.status === 'missing' && <Badge variant="error" className="text-[10px] leading-none px-2 py-0.5 shadow-sm">MISSING</Badge>}
                   </td>
                   <td className="px-6 py-3.5 text-right">
