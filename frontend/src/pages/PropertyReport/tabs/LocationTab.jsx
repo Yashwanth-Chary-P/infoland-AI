@@ -1,10 +1,77 @@
-import React from 'react';
-import { Navigation, Map } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Navigation, Map, GraduationCap, Activity, TreePine, Store } from 'lucide-react';
+import { getLocationIntelligenceByPropertyId } from '../../../services/data/LocationService';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const LocationTab = ({ plot }) => {
-  const score = plot.locationScore?.location_score;
+  const [locationData, setLocationData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const fetchLocationData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await getLocationIntelligenceByPropertyId(plot.property_id);
+        if (mounted) {
+          setLocationData(data);
+        }
+      } catch (err) {
+        if (mounted) {
+          if (err.response && err.response.status === 404) {
+            setLocationData(null); // No data
+          } else {
+            setError(err.message || 'Unable to load location information.');
+          }
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    if (plot?.property_id) {
+      fetchLocationData();
+    }
+
+    return () => {
+      mounted = false;
+    };
+  }, [plot?.property_id]);
+
+  if (loading) {
+    return <div className="p-8"><LoadingSpinner message="Loading location intelligence..." /></div>;
+  }
+
+  if (error) {
+    return (
+      <div className="p-8">
+        <h2 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-8">Location Intelligence</h2>
+        <div className="bg-red-50 text-red-600 p-4 rounded-xl border border-red-100 text-sm font-medium">
+          Unable to load location information.
+        </div>
+      </div>
+    );
+  }
+
+  if (!locationData) {
+    return (
+      <div className="p-8">
+        <h2 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-8">Location Intelligence</h2>
+        <div className="bg-slate-50 text-slate-500 p-4 rounded-xl border border-slate-100 text-sm font-medium">
+          No location intelligence available.
+        </div>
+      </div>
+    );
+  }
+
+  const score = locationData.location_score;
   const hasScore = score != null;
-  
+
   return (
     <div className="p-8">
       <h2 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-8">Location Intelligence</h2>
@@ -37,12 +104,43 @@ const LocationTab = ({ plot }) => {
 
         <div>
           <h3 className="text-sm font-bold text-slate-900 mb-4">Points of Interest</h3>
-          <div className="flex flex-col items-center justify-center py-16 bg-slate-50 border border-slate-100 rounded-xl text-center px-4">
-             <div className="w-12 h-12 bg-white border border-slate-200 shadow-sm rounded-full flex items-center justify-center mb-4">
-                <Map className="w-5 h-5 text-slate-400" />
-             </div>
-             <h4 className="text-sm font-bold text-slate-900 mb-1">Location intelligence not yet available.</h4>
-             <p className="text-xs text-slate-500 font-medium">Points of Interest details are not currently available for this property.</p>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex flex-col justify-between">
+               <div className="flex items-center gap-2 mb-2">
+                 <GraduationCap className="w-4 h-4 text-blue-500" />
+                 <span className="text-xs font-bold text-slate-700">Schools</span>
+               </div>
+               <p className="text-2xl font-black text-slate-900">{locationData.nearby_school_count ?? 0}</p>
+               <p className="text-[10px] text-slate-500 font-medium mt-1">Nearest: {locationData.distance_to_nearest_school_km != null ? `${locationData.distance_to_nearest_school_km.toFixed(2)} km` : 'N/A'}</p>
+            </div>
+
+            <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex flex-col justify-between">
+               <div className="flex items-center gap-2 mb-2">
+                 <Activity className="w-4 h-4 text-rose-500" />
+                 <span className="text-xs font-bold text-slate-700">Hospitals</span>
+               </div>
+               <p className="text-2xl font-black text-slate-900">{locationData.nearby_hospital_count ?? 0}</p>
+               <p className="text-[10px] text-slate-500 font-medium mt-1">Nearest: {locationData.distance_to_nearest_hospital_km != null ? `${locationData.distance_to_nearest_hospital_km.toFixed(2)} km` : 'N/A'}</p>
+            </div>
+
+            <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex flex-col justify-between">
+               <div className="flex items-center gap-2 mb-2">
+                 <TreePine className="w-4 h-4 text-emerald-500" />
+                 <span className="text-xs font-bold text-slate-700">Parks</span>
+               </div>
+               <p className="text-2xl font-black text-slate-900">{locationData.nearby_park_count ?? 0}</p>
+               <p className="text-[10px] text-slate-500 font-medium mt-1">Nearest: {locationData.distance_to_nearest_park_km != null ? `${locationData.distance_to_nearest_park_km.toFixed(2)} km` : 'N/A'}</p>
+            </div>
+
+            <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex flex-col justify-between">
+               <div className="flex items-center gap-2 mb-2">
+                 <Store className="w-4 h-4 text-purple-500" />
+                 <span className="text-xs font-bold text-slate-700">Commercial</span>
+               </div>
+               <p className="text-2xl font-black text-slate-900">{locationData.nearby_commercial_count ?? 0}</p>
+               <p className="text-[10px] text-slate-500 font-medium mt-1">Nearest: {locationData.distance_to_nearest_commercial_km != null ? `${locationData.distance_to_nearest_commercial_km.toFixed(2)} km` : 'N/A'}</p>
+            </div>
           </div>
         </div>
       </div>

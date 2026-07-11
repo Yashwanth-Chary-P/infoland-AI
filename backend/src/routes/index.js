@@ -8,6 +8,7 @@ import healthRoutes from './health.routes.js';
 import verificationRoutes from './verification.routes.js';
 import assessmentRoutes from './assessment.routes.js';
 import analyticsRoutes from './analytics.routes.js';
+import locationRoutes from './location.routes.js';
 
 const router = express.Router();
 
@@ -23,5 +24,6 @@ router.use('/property-health', healthRoutes);
 router.use('/verification', verificationRoutes);
 router.use('/assessment', assessmentRoutes);
 router.use('/analytics', analyticsRoutes);
+router.use('/location', locationRoutes);
 
 export default router;
